@@ -1,3 +1,4 @@
+import 'package:crediteih_app/pages/home_page.dart';
 import 'package:realm/realm.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
@@ -138,14 +139,17 @@ class _LoginState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               onPressed: () {
-                canAccess(emailController.text, passwordController.text);
-                /* Navigator.push(
-                    context,
-                    FluentPageRoute(
-                      builder: (context) => const HomePage(
-                        title: 'Crediteih App',
-                      ),
-                    )); */
+                bool usuarioAutenticado =
+                    canAccess(emailController.text, passwordController.text);
+                if (usuarioAutenticado) {
+                  Navigator.push(
+                      context,
+                      FluentPageRoute(
+                        builder: (context) => const HomePage(
+                          title: 'Crediteih App',
+                        ),
+                      ));
+                }
               },
               style: ButtonStyle(
                 padding: ButtonState.all(
@@ -172,11 +176,8 @@ class _LoginState extends State<LoginPage> {
     var usuarioUtenticado =
         allUsers.query("email == '$user' AND password == '$password'");
 
-    if (usuarioUtenticado.isNotEmpty) {
-      print('Usuário autenticado');
-      return true;
-    }
-    print('Usuário não autenticado');
+    if (usuarioUtenticado.isNotEmpty) return true;
+
     return false;
   }
 }
