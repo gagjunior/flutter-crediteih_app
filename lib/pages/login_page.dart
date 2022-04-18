@@ -1,8 +1,7 @@
 import 'package:realm/realm.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:crediteih_app/pages/home_page.dart';
-import 'package:crediteih_app/models/models.dart';
+import 'package:crediteih_app/models/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,21 +13,22 @@ class LoginPage extends StatefulWidget {
 class _LoginState extends State<LoginPage> {
   late Realm realm;
   TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   _LoginState() {
-    final config = Configuration([User.schema]);
+    final Configuration config = Configuration([User.schema]);
     realm = Realm(config);
-    var allUsers = realm.all<User>();
+    RealmResults<User> allUsers = realm.all<User>();
 
     if (allUsers.isEmpty) {
       realm.write(() {
-        User admin = User('admin@admin', 'admin', '123456');
+        User admin = User('admin@admin.com', 'admin', 'admin123456');
         realm.add(admin);
         print(
             "Usuário admin criado com sucesso: ${admin.email}, ${admin.name}");
       });
     } else {
-      var admin = allUsers.query('email == "admin@admin"').elementAt(0);
+      var admin = allUsers.query('email == "admin@admin.com"').elementAt(0);
       print('${admin.name}, ${admin.email}');
     }
 
@@ -57,6 +57,7 @@ class _LoginState extends State<LoginPage> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: TextFormBox(
+                  controller: emailController,
                   header: 'Email',
                   placeholder: 'Digite seu e-mail...',
                   autovalidateMode: AutovalidateMode.always,
@@ -70,7 +71,6 @@ class _LoginState extends State<LoginPage> {
                     return null;
                   },
                   textInputAction: TextInputAction.next,
-                  controller: emailController,
                   textAlignVertical: TextAlignVertical.center,
                   prefix: const Padding(
                     padding: EdgeInsets.only(left: 8),
@@ -97,15 +97,26 @@ class _LoginState extends State<LoginPage> {
               width: 500,
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: TextBox(
-                  textAlignVertical: TextAlignVertical.center,
+                child: TextFormBox(
+                  controller: passwordController,
                   header: 'Senha',
+                  placeholder: 'Digite sua senha...',
+                  autovalidateMode: AutovalidateMode.always,
+                  validator: (text) {
+                    if (text == null || text.isEmpty) {
+                      return 'Digite a senha';
+                    }
+                    if (text.length < 8 || text.length > 12) {
+                      return 'A senha deve estar entre 8 e 12 caracteres';
+                    }
+                    return null;
+                  },
+                  textAlignVertical: TextAlignVertical.center,
                   minHeight: 40,
                   cursorHeight: 26,
                   obscureText: true,
                   obscuringCharacter: '◉',
                   cursorColor: Colors.blue,
-                  placeholder: 'Digite sua senha...',
                   prefix: const Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Icon(
@@ -127,13 +138,14 @@ class _LoginState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               onPressed: () {
-                Navigator.push(
+                canAccess(emailController.text, passwordController.text);
+                /* Navigator.push(
                     context,
                     FluentPageRoute(
                       builder: (context) => const HomePage(
                         title: 'Crediteih App',
                       ),
-                    ));
+                    )); */
               },
               style: ButtonStyle(
                 padding: ButtonState.all(
@@ -151,5 +163,20 @@ class _LoginState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  bool canAccess(String user, String password) {
+    final Configuration config = Configuration([User.schema]);
+    realm = Realm(config);
+    RealmResults<User> allUsers = realm.all<User>();
+    var usuarioUtenticado =
+        allUsers.query("email == '$user' AND password == '$password'");
+
+    if (usuarioUtenticado.isNotEmpty) {
+      print('Usuário autenticado');
+      return true;
+    }
+    print('Usuário não autenticado');
+    return false;
   }
 }
