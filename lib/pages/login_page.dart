@@ -149,6 +149,8 @@ class _LoginState extends State<LoginPage> {
                           title: 'Crediteih App',
                         ),
                       ));
+                } else {
+                  _showDialogLogin();
                 }
               },
               style: ButtonStyle(
@@ -179,5 +181,22 @@ class _LoginState extends State<LoginPage> {
     if (usuarioUtenticado.isNotEmpty) return true;
 
     return false;
+  }
+
+  void _showDialogLogin() {
+    showDialog(
+      context: context,
+      builder: (_) => ContentDialog(
+        title: const Text('Usuário e senha inválidos'),
+        content: const Text('Confira o usuário e senha digitados'),
+        actions: [
+          Button(
+              child: const Text('Voltar'),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
+      ),
+    );
   }
 }
