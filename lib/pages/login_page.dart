@@ -13,26 +13,28 @@ class LoginPage extends StatefulWidget {
 
 class _LoginState extends State<LoginPage> {
   late Realm realm;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool _showPassword = false;
 
   _LoginState() {
     final Configuration config = Configuration([User.schema]);
     realm = Realm(config);
     RealmResults<User> allUsers = realm.all<User>();
 
+    // Verifica se existe algum usuário criado
+    // Se não existir cria o usuário admin
     if (allUsers.isEmpty) {
       realm.write(() {
         User admin = User('admin@admin.com', 'admin', 'admin123456');
         realm.add(admin);
-        print(
-            "Usuário admin criado com sucesso: ${admin.email}, ${admin.name}");
+        //print("Usuário admin criado com sucesso: ${admin.email}, ${admin.name}");
       });
-    } else {
-      var admin = allUsers.query('email == "admin@admin.com"').elementAt(0);
+    } /* else {
+      User admin = allUsers.query('email == "admin@admin.com"').elementAt(0);
       print('${admin.name}, ${admin.email}');
-    }
-
+    } */
     realm.close();
   }
 
@@ -112,12 +114,15 @@ class _LoginState extends State<LoginPage> {
                     }
                     return null;
                   },
+                  textInputAction: TextInputAction.next,
                   textAlignVertical: TextAlignVertical.center,
                   minHeight: 40,
                   cursorHeight: 26,
-                  obscureText: true,
+                  obscureText: !_showPassword,
                   obscuringCharacter: '◉',
                   cursorColor: Colors.blue,
+                  keyboardType: TextInputType.visiblePassword,
+                  maxLength: 12,
                   prefix: const Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Icon(
@@ -125,6 +130,15 @@ class _LoginState extends State<LoginPage> {
                       color: Color.fromRGBO(0, 64, 255, 1.0),
                       size: 24,
                     ),
+                  ),
+                  suffix: IconButton(
+                    icon: Icon(
+                        !_showPassword ? FluentIcons.lock : FluentIcons.unlock),
+                    onPressed: () {
+                      setState(() {
+                        _showPassword = !_showPassword;
+                      });
+                    },
                   ),
                   style: const TextStyle(
                     letterSpacing: 3,
@@ -171,18 +185,24 @@ class _LoginState extends State<LoginPage> {
     );
   }
 
+  // Método de login
   bool canAccess(String user, String password) {
     final Configuration config = Configuration([User.schema]);
     realm = Realm(config);
     RealmResults<User> allUsers = realm.all<User>();
-    var usuarioUtenticado =
+    RealmResults<User> usuarioUtenticado =
         allUsers.query("email == '$user' AND password == '$password'");
 
-    if (usuarioUtenticado.isNotEmpty) return true;
+    if (usuarioUtenticado.isNotEmpty) {
+      realm.close();
+      return true;
+    }
 
+    realm.close();
     return false;
   }
 
+  // Método que exibe mensagem de erro no login
   void _showDialogLogin() {
     showDialog(
       context: context,
@@ -190,7 +210,7 @@ class _LoginState extends State<LoginPage> {
         title: const Text('Usuário e senha inválidos'),
         content: const Text('Confira o usuário e senha digitados'),
         actions: [
-          Button(
+          FilledButton(
               child: const Text('Voltar'),
               onPressed: () {
                 Navigator.pop(context);
