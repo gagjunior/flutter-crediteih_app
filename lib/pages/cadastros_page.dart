@@ -10,8 +10,8 @@ class CadastrosPage extends StatefulWidget {
 class _CadastrosPageState extends State<CadastrosPage> {
   @override
   Widget build(BuildContext context) {
-    return const ScaffoldPage(
-      header: PageHeader(
+    return ScaffoldPage.scrollable(
+      header: const PageHeader(
         title: Text(
           'Cadastros',
           style: TextStyle(
@@ -20,6 +20,21 @@ class _CadastrosPageState extends State<CadastrosPage> {
           ),
         ),
       ),
+      children: [
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              child: Card(
+                padding: EdgeInsets.all(12),
+                child: Text('Cadastro de Usuários'),
+                elevation: 4,
+              ),
+            ),
+            Card(child: Text('Cadastro de NCM')),
+          ],
+        )
+      ],
     );
   }
 }
