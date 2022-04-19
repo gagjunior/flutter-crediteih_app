@@ -18,9 +18,17 @@ class CrediteihApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Crediteih App',
       theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          brightness: Brightness.light,
-          accentColor: SystemTheme.accentColor.accent.toAccentColor()),
+        scaffoldBackgroundColor: Colors.white,
+        brightness: Brightness.light,
+        accentColor: SystemTheme.accentColor.accent.toAccentColor(),
+        focusTheme: FocusThemeData(
+          glowFactor: 3.0,
+          glowColor: SystemTheme.accentColor.accent.withOpacity(0.1),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          primaryBorder: BorderSide.none,
+        ),
+      ),
+      locale: const Locale('pt', 'BR'),
       home: const LoginPage(),
     );
   }
