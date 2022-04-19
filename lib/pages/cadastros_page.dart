@@ -1,5 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 
+const Widget spacer = SizedBox(height: 5.0);
+
 class CadastrosPage extends StatefulWidget {
   const CadastrosPage({Key? key}) : super(key: key);
 
@@ -8,6 +10,8 @@ class CadastrosPage extends StatefulWidget {
 }
 
 class _CadastrosPageState extends State<CadastrosPage> {
+  bool disabled = false;
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
@@ -21,20 +25,63 @@ class _CadastrosPageState extends State<CadastrosPage> {
         ),
       ),
       children: [
-        Row(
+        Wrap(
+          direction: Axis.vertical,
+          alignment: WrapAlignment.start,
+          spacing: 14,
+          runSpacing: 14,
           children: [
-            Container(
-              padding: EdgeInsets.all(8),
-              child: Card(
-                padding: EdgeInsets.all(12),
-                child: Text('Cadastro de Usuários'),
-                elevation: 4,
-              ),
-            ),
-            Card(child: Text('Cadastro de NCM')),
+            _createCard('Cadastro de Usuários'),
+            _createCard('Cadastro de NCM'),
           ],
-        )
+        ),
       ],
+    );
+  }
+
+  Widget _createCard(String titulo) {
+    const double splitButtonHeight = 25.0;
+    return Card(
+      child: InfoLabel(
+        label: titulo,
+        labelStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+        isHeader: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            spacer,
+            FilledButton(
+              child: const Text('Acessar'),
+              onPressed: disabled ? null : () => print('pressed filled button'),
+            ),
+            spacer,
+            DropDownButton(
+              disabled: disabled,
+              leading: const Icon(FluentIcons.mail),
+              items: [
+                DropDownButtonItem(
+                  title: const Text('Send'),
+                  leading: const Icon(FluentIcons.send),
+                  onTap: () => debugPrint('Send'),
+                ),
+                DropDownButtonItem(
+                  title: const Text('Reply'),
+                  leading: const Icon(FluentIcons.mail_reply),
+                  onTap: () => debugPrint('Reply'),
+                ),
+                DropDownButtonItem(
+                  title: const Text('Reply all'),
+                  leading: const Icon(FluentIcons.mail_reply_all),
+                  onTap: () => debugPrint('Reply all'),
+                ),
+              ],
+            ),
+            spacer,
+          ],
+        ),
+      ),
     );
   }
 }
