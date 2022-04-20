@@ -43,13 +43,35 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(FluentIcons.home),
             title: const Text('Home'),
           ),
-          PaneItem(
-            icon: const Icon(FluentIcons.open_file),
-            title: const Text('Importar Arquivos'),
+          PaneItemSeparator(
+            thickness: 2.0,
+            color: const Color.fromARGB(255, 0, 100, 255),
+          ),
+          PaneItemHeader(
+            header: Row(
+              children: const [
+                Icon(FluentIcons.add_multiple),
+                SizedBox(
+                  width: 8,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Cadastros'),
+                ),
+              ],
+            ),
           ),
           PaneItem(
-            icon: const Icon(FluentIcons.add_multiple),
-            title: const Text('Cadastros'),
+            icon: const Icon(FluentIcons.add_group),
+            title: const Text('Cadastro de Usuários'),
+          ),
+          PaneItem(
+            icon: const Icon(FluentIcons.list),
+            title: const Text('Cadastros de NCM'),
+          ),
+          PaneItemSeparator(
+            thickness: 2.0,
+            color: const Color.fromARGB(255, 0, 100, 255),
           ),
         ],
       ),

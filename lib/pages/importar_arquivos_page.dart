@@ -10,12 +10,6 @@ class ImportarArquivosPage extends StatefulWidget {
 class _ImportarArquivosPageState extends State<ImportarArquivosPage> {
   @override
   Widget build(BuildContext context) {
-    return ScaffoldPage(
-      padding: const EdgeInsets.all(4),
-      header: const Text('Importar Arquivos'),
-      content: Container(
-        color: Colors.blue,
-      ),
-    );
+    return ScaffoldPage();
   }
 }
