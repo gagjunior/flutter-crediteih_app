@@ -3,8 +3,8 @@ import 'package:fluent_ui/fluent_ui.dart';
 
 //Imports crediteih_app
 import 'package:crediteih_app/pages/inicial_page.dart';
-import 'package:crediteih_app/pages/importar_arquivos_page.dart';
-import 'package:crediteih_app/pages/cadastros_page.dart';
+import 'package:crediteih_app/pages/ncm_cad.dart';
+import 'package:crediteih_app/pages/user_cad.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         header: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            'Crediteih App',
+            'Crediteih',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color.fromARGB(255, 19, 52, 216),
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         items: <NavigationPaneItem>[
           PaneItem(
             icon: const Icon(FluentIcons.home),
-            title: const Text('Home'),
+            title: const Text('Inicio'),
           ),
           PaneItemSeparator(
             thickness: 2.0,
@@ -81,8 +81,8 @@ class _HomePageState extends State<HomePage> {
         index: _currentPage,
         children: const <Widget>[
           InicialPage(),
-          ImportarArquivosPage(),
-          CadastrosPage()
+          UserCadPage(),
+          NcmCadPage(),
         ],
       ),
     );
