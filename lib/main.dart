@@ -17,6 +17,7 @@ class CrediteihApp extends StatelessWidget {
     return FluentApp(
       debugShowCheckedModeBanner: false,
       title: 'Crediteih App',
+      home: const LoginPage(),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         brightness: Brightness.light,
@@ -28,8 +29,6 @@ class CrediteihApp extends StatelessWidget {
           primaryBorder: BorderSide.none,
         ),
       ),
-      locale: const Locale('pt', 'BR'),
-      home: const LoginPage(),
     );
   }
 }

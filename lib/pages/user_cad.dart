@@ -15,11 +15,69 @@ class _UserCadPageState extends State<UserCadPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
-      padding: EdgeInsets.all(6),
+      padding: const EdgeInsets.all(6),
       header: PageHeader(
-        title: Text('Cadastro de Usuários'),
+        title: Padding(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                'Cadastro de Usuários',
+                style: TextStyle(
+                  fontSize: 26,
+                  color: Color.fromARGB(255, 10, 34, 255),
+                ),
+              ),
+              Text(
+                'Cadastre e gerencie os usuários do aplicativo',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(8.0),
+        ),
+        leading: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(
+            FluentIcons.add_group,
+            size: 26,
+            color: Color.fromARGB(255, 10, 34, 255),
+          ),
+        ),
       ),
-      children: [],
+      children: [
+        Wrap(
+          direction: Axis.vertical,
+          spacing: 10,
+          children: [
+            Container(
+              width: 600,
+              child: TextFormBox(
+                keyboardType: TextInputType.text,
+                header: 'Nome',
+                textInputAction: TextInputAction.next,
+              ),
+            ),
+            Container(
+              width: 600,
+              child: TextFormBox(
+                header: 'E-mail',
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextFormBox(
+                header: 'CPF',
+                maxLength: 15,
+                autofocus: true,
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

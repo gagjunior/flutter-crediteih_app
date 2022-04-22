@@ -11,7 +11,7 @@ class _NcmCadPageState extends State<NcmCadPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
-      children: [
+      children: const [
         Text('Cadastro de NCM'),
       ],
     );
