@@ -245,6 +245,11 @@ class _UserCadPageState extends State<UserCadPage> {
   }
 
   void salvar(User user) {
+    String nome = nomeController.text;
+    if (nome.isEmpty || nome == null) {
+      _showDialogErro('Nome Usuário', 'Nome do usuário não pode ficar em branco');
+      return;
+    }
     realm.write(() {
       user.name = nomeController.text;
       user.cpf = cpfController.text;
@@ -257,7 +262,27 @@ class _UserCadPageState extends State<UserCadPage> {
 
   void cancelar() {
     setState(() {
+      emailController.text = selectedUser.email;
+      nomeController.text = selectedUser.name;
+      cpfController.text = selectedUser.cpf.toString();
       isReadOnly = true;
     });
+  }
+
+  void _showDialogErro(String titulo, String conteudo) {
+    showDialog(
+      context: context,
+      builder: (_) => ContentDialog(
+        title: Text(titulo),
+        content: Text(conteudo),
+        actions: [
+          FilledButton(
+              child: const Text('Voltar'),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
+      ),
+    );
   }
 }
