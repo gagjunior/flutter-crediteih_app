@@ -29,7 +29,7 @@ class User extends _User with RealmEntity, RealmObject {
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
   @override
-  set name(String value) => throw RealmUnsupportedSetError();
+  set name(String value) => RealmObject.set(this, 'name', value);
 
   @override
   String get password => RealmObject.get<String>(this, 'password') as String;

@@ -8,7 +8,7 @@ class _User {
   late final String email;
 
   @Indexed()
-  late final String name;
+  late String name;
 
   late String password;
 
