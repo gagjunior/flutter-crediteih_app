@@ -1,5 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:crediteih_app/models/user_model.dart';
+import 'package:crediteih_app/pages/users/user_new.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +24,6 @@ class _UserCadPageState extends State<UserCadPage> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController cpfController = TextEditingController();
-  final TextEditingController testeController = TextEditingController();
 
   _UserCadPageState() {
     final Configuration config = Configuration([User.schema]);
@@ -107,10 +107,8 @@ class _UserCadPageState extends State<UserCadPage> {
                     String email = emailController.text;
                     selectedUser =
                         allUsers.query("email == '$email'").elementAt(0);
-
                     setState(() {
                       isReadOnly = false;
-                      testeController.text = selectedUser.email;
                     });
                   },
                 ),
@@ -124,7 +122,13 @@ class _UserCadPageState extends State<UserCadPage> {
                 wrappedItem: CommandBarButton(
                   icon: const Icon(FluentIcons.add),
                   label: const Text('Novo'),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        FluentPageRoute(
+                          builder: (context) => const NewUserPage(),
+                        ));
+                  },
                 ),
               ),
             ],
@@ -225,18 +229,6 @@ class _UserCadPageState extends State<UserCadPage> {
                     ),
                   )
                 ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 600,
-              child: TextFormBox(
-                header: 'Usuario selecionado',
-                readOnly: isReadOnly,
-                maxLength: 100,
-                keyboardType: TextInputType.text,
-                controller: testeController,
-                textInputAction: TextInputAction.next,
               ),
             ),
           ],
