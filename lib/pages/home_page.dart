@@ -4,7 +4,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 //Imports crediteih_app
 import 'package:crediteih_app/pages/inicial_page.dart';
 import 'package:crediteih_app/pages/ncm_cad.dart';
-import 'package:crediteih_app/pages/user_cad.dart';
+import 'package:crediteih_app/pages/users/user_cad.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
