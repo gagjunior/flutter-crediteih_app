@@ -90,7 +90,7 @@ class _UserCadPageState extends State<UserCadPage> {
       ),
       children: [
         Container(
-          color: Color.fromARGB(30, 0, 0, 0),
+          color: const Color.fromARGB(30, 0, 0, 0),
           child: CommandBar(
             overflowBehavior: CommandBarOverflowBehavior.wrap,
             compactBreakpointWidth: 600,
@@ -130,11 +130,11 @@ class _UserCadPageState extends State<UserCadPage> {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: 600,
               child: TextFormBox(
                 header: 'E-mail',
@@ -156,7 +156,7 @@ class _UserCadPageState extends State<UserCadPage> {
                 },
               ),
             ),
-            Container(
+            SizedBox(
               width: 600,
               child: TextFormBox(
                 header: 'Nome',
@@ -167,7 +167,7 @@ class _UserCadPageState extends State<UserCadPage> {
                 textInputAction: TextInputAction.next,
               ),
             ),
-            Container(
+            SizedBox(
               width: 600,
               child: TextFormBox(
                 header: 'CPF',
@@ -183,6 +183,7 @@ class _UserCadPageState extends State<UserCadPage> {
                   if (!GetUtils.isCpf(text.toString())) {
                     return 'CPF inválido';
                   }
+                  return null;
                 },
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -190,34 +191,34 @@ class _UserCadPageState extends State<UserCadPage> {
                 ],
               ),
             ),
-            SizedBox(height: 14),
-            Container(
+            const SizedBox(height: 14),
+            SizedBox(
               width: 600,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Expanded(
                     child: FilledButton(
-                      child: Text('Salvar'),
+                      child: const Text('Salvar'),
                       onPressed: isReadOnly
                           ? null
                           : () {
                               salvar(selectedUser);
                             },
-                      style: ButtonStyle(),
+                      style: const ButtonStyle(),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: FilledButton(
-                      child: Text('Cancelar'),
+                      child: const Text('Cancelar'),
                       onPressed: isReadOnly ? null : cancelar,
                       style: ButtonStyle(
                         backgroundColor: ButtonState.resolveWith((states) {
                           if (states.isNone) {
-                            return Color.fromARGB(255, 226, 33, 33);
+                            return const Color.fromARGB(255, 226, 33, 33);
                           } else {
-                            return Color.fromARGB(255, 165, 22, 22);
+                            return const Color.fromARGB(255, 165, 22, 22);
                           }
                         }),
                       ),
@@ -226,8 +227,8 @@ class _UserCadPageState extends State<UserCadPage> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            Container(
+            const SizedBox(height: 20),
+            SizedBox(
               width: 600,
               child: TextFormBox(
                 header: 'Usuario selecionado',
@@ -246,8 +247,9 @@ class _UserCadPageState extends State<UserCadPage> {
 
   void salvar(User user) {
     String nome = nomeController.text;
-    if (nome.isEmpty || nome == null) {
-      _showDialogErro('Nome Usuário', 'Nome do usuário não pode ficar em branco');
+    if (nome.isEmpty) {
+      _showDialogErro(
+          'Nome Usuário', 'Nome do usuário não pode ficar em branco');
       return;
     }
     realm.write(() {
