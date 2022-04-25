@@ -1,11 +1,14 @@
-import 'package:brasil_fields/brasil_fields.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+
 import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/pages/users/user_new.dart';
+import 'package:crediteih_app/pages/shared_widgets.dart';
+
 import 'package:email_validator/email_validator.dart';
-import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:realm/realm.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 
 const Widget spacer = SizedBox(height: 6.0);
 
@@ -57,36 +60,8 @@ class _UserCadPageState extends State<UserCadPage> {
     return ScaffoldPage.scrollable(
       padding: const EdgeInsets.all(6),
       header: PageHeader(
-        title: Padding(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
-                'Cadastro de Usuários',
-                style: TextStyle(
-                  fontSize: 26,
-                  color: Color.fromARGB(255, 10, 34, 255),
-                ),
-              ),
-              Text(
-                'Cadastre e gerencie os usuários do aplicativo',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.all(8.0),
-        ),
-        leading: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(
-            FluentIcons.add_group,
-            size: 26,
-            color: Color.fromARGB(255, 10, 34, 255),
-          ),
-        ),
+        title: titlePageHeader(FluentIcons.add_group, 'Cadastro de Usuários',
+            'Cadastre e gerencie os usuários do sistema'),
       ),
       children: [
         Container(
@@ -258,7 +233,11 @@ class _UserCadPageState extends State<UserCadPage> {
     setState(() {
       emailController.text = selectedUser.email;
       nomeController.text = selectedUser.name;
-      cpfController.text = selectedUser.cpf.toString();
+      if (selectedUser.cpf == null) {
+        cpfController.text = '';
+      } else {
+        cpfController.text = selectedUser.cpf.toString();
+      }
       isReadOnly = true;
     });
   }
