@@ -133,7 +133,9 @@ class _LoginState extends State<LoginPage> {
                   ),
                   suffix: IconButton(
                     icon: Icon(
-                        !_showPassword ? FluentIcons.lock : FluentIcons.unlock),
+                      !_showPassword ? FluentIcons.lock : FluentIcons.unlock,
+                      size: 18,
+                    ),
                     onPressed: () {
                       setState(() {
                         _showPassword = !_showPassword;

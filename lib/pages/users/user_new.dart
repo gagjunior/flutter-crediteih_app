@@ -17,11 +17,15 @@ class NewUserPage extends StatefulWidget {
 
 class _NewUserPageState extends State<NewUserPage> {
   late Realm realm;
-  bool isReadOnly = false;
 
-  final TextEditingController nomeController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController cpfController = TextEditingController();
+  bool isReadOnly = false;
+  bool isObscureText = true;
+
+  final TextEditingController nome = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController cpf = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
 
   _NewUserPageState() {
     final Configuration config = Configuration([User.schema]);
@@ -62,12 +66,12 @@ class _NewUserPageState extends State<NewUserPage> {
                 readOnly: isReadOnly,
                 maxLength: 100,
                 keyboardType: TextInputType.emailAddress,
-                controller: emailController,
+                controller: email,
                 textInputAction: TextInputAction.next,
                 autovalidateMode: AutovalidateMode.always,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return '';
+                    return 'Digite um e-mail válido           ';
                   }
                   if (!EmailValidator.validate(text)) {
                     return 'E-mail não é válido';
@@ -76,6 +80,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 },
               ),
             ),
+            const SizedBox(height: 10),
             SizedBox(
               width: 600,
               child: TextFormBox(
@@ -83,18 +88,29 @@ class _NewUserPageState extends State<NewUserPage> {
                 readOnly: isReadOnly,
                 maxLength: 100,
                 keyboardType: TextInputType.text,
-                controller: nomeController,
+                controller: nome,
                 textInputAction: TextInputAction.next,
+                obscureText: isObscureText,
+                obscuringCharacter: '◉',
+                autovalidateMode: AutovalidateMode.always,
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Digite um nome';
+                  }
+                  return null;
+                },
               ),
             ),
+            const SizedBox(height: 10),
             SizedBox(
               width: 600,
               child: TextFormBox(
                 header: 'CPF',
                 readOnly: isReadOnly,
-                controller: cpfController,
+                controller: cpf,
                 maxLength: 15,
                 placeholder: 'digite apenas os numeros do seu CPF',
+                textInputAction: TextInputAction.next,
                 autovalidateMode: AutovalidateMode.always,
                 validator: (text) {
                   if (text.toString().isEmpty || text == null) {
@@ -109,6 +125,50 @@ class _NewUserPageState extends State<NewUserPage> {
                   FilteringTextInputFormatter.digitsOnly,
                   CpfInputFormatter(),
                 ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 600,
+              child: TextFormBox(
+                header: 'Senha',
+                readOnly: isReadOnly,
+                maxLength: 12,
+                keyboardType: TextInputType.visiblePassword,
+                controller: password,
+                textInputAction: TextInputAction.next,
+                obscureText: isObscureText,
+                obscuringCharacter: '◉',
+                autovalidateMode: AutovalidateMode.always,
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Digite uma senha';
+                  }
+                  return null;
+                },
+                suffix: IconButton(
+                  icon: Icon(
+                    isObscureText ? FluentIcons.lock : FluentIcons.unlock,
+                    size: 18,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isObscureText = !isObscureText;
+                    });
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 600,
+              child: TextFormBox(
+                header: 'Confirme a Senha',
+                readOnly: isReadOnly,
+                maxLength: 12,
+                keyboardType: TextInputType.visiblePassword,
+                controller: confirmPassword,
+                textInputAction: TextInputAction.next,
               ),
             ),
             const SizedBox(height: 14),
