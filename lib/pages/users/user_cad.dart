@@ -1,11 +1,11 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/services.dart';
 
 import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/pages/users/user_new.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:realm/realm.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -72,6 +72,24 @@ class _UserCadPageState extends State<UserCadPage> {
             primaryItems: [
               CommandBarBuilderItem(
                 builder: (context, mode, w) => Tooltip(
+                  message: 'Inserir novo usuário',
+                  child: w,
+                ),
+                wrappedItem: CommandBarButton(
+                  icon: const Icon(FluentIcons.add),
+                  label: const Text('Novo'),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        FluentPageRoute(
+                          builder: (context) => const NewUserPage(),
+                        ));
+                  },
+                ),
+              ),
+              const CommandBarSeparator(),
+              CommandBarBuilderItem(
+                builder: (context, mode, w) => Tooltip(
                   message: "Editar o usuário selecionado",
                   child: w,
                 ),
@@ -85,24 +103,6 @@ class _UserCadPageState extends State<UserCadPage> {
                     setState(() {
                       isReadOnly = false;
                     });
-                  },
-                ),
-              ),
-              const CommandBarSeparator(),
-              CommandBarBuilderItem(
-                builder: (context, mode, w) => Tooltip(
-                  message: 'Inserir novo usuário',
-                  child: w,
-                ),
-                wrappedItem: CommandBarButton(
-                  icon: const Icon(FluentIcons.add),
-                  label: const Text('Novo'),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        FluentPageRoute(
-                          builder: (context) => const NewUserPage(),
-                        ));
                   },
                 ),
               ),
@@ -223,7 +223,6 @@ class _UserCadPageState extends State<UserCadPage> {
       user.name = nomeController.text;
       user.cpf = cpfController.text;
     });
-    realm.close();
     setState(() {
       isReadOnly = true;
     });
