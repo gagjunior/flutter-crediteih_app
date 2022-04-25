@@ -12,10 +12,22 @@ class _NewUserPageState extends State<NewUserPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
-      padding: EdgeInsets.all(6),
-      header: headerPage(FluentIcons.user_followed, 'Novo Usuário',
-          'Cadastre um novo usuário'),
-      children: [],
+      padding: const EdgeInsets.all(6),
+      header: PageHeader(
+        leading: IconButton(
+          icon: Icon(
+            FluentIcons.back,
+            size: 20,
+            color: Color.fromARGB(255, 10, 34, 255),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: titlePageHeader(FluentIcons.user_followed, 'Novo Usuário',
+            'Cadastre um novo usuário'),
+      ),
+      children: const [],
     );
   }
 }
