@@ -1,8 +1,12 @@
-import 'package:crediteih_app/pages/home_page.dart';
+//Imports de terceiros
 import 'package:realm/realm.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+//Imports do projeto
 import 'package:crediteih_app/models/user_model.dart';
+import 'package:crediteih_app/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -155,6 +159,7 @@ class _LoginState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               onPressed: () {
+                getCloudUsers();
                 bool usuarioAutenticado =
                     canAccess(emailController.text, passwordController.text);
                 if (usuarioAutenticado) {
@@ -220,5 +225,32 @@ class _LoginState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  Future<void> getCloudUsers() async {
+    final url = Uri.parse(
+        'https://data.mongodb-api.com/app/data-uhnoa/endpoint/data/beta/action/findOne');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Access-Control-Request-Headers': '*',
+      'api-key':
+          'Veyz7RSLg6PXeaFl8QJ4G0mIP3mfxq64UaysYVqz8XIbcM34yfnNVJ2NruAh63DH'
+    };
+    final body = {
+      'collection': 'users',
+      'database': 'crediteih_app',
+      'dataSource': 'CrediteihApp'
+    };
+
+    var response =
+        await http.post(url, headers: headers, body: convert.jsonEncode(body));
+    var jsonResponse = convert.jsonDecode(response.body);
+
+    var email = jsonResponse["document"]["email"];
+    var senha = jsonResponse["document"]["senha"];
+
+    print(jsonResponse);
+    print(email);
+    print(senha);
   }
 }
