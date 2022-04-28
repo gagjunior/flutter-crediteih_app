@@ -159,7 +159,9 @@ class _LoginState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               onPressed: () {
-                getCloudUsers();
+                Future<bool> isauthenticated = getCloudUsers(
+                    emailController.text, passwordController.text);
+                isauthenticated.then((value) => print(value));
                 bool usuarioAutenticado =
                     canAccess(emailController.text, passwordController.text);
                 if (usuarioAutenticado) {
@@ -227,7 +229,7 @@ class _LoginState extends State<LoginPage> {
     );
   }
 
-  Future<void> getCloudUsers() async {
+  Future<bool> getCloudUsers(String user, String password) async {
     final url = Uri.parse(
         'https://data.mongodb-api.com/app/data-uhnoa/endpoint/data/beta/action/findOne');
     final headers = {
@@ -246,11 +248,16 @@ class _LoginState extends State<LoginPage> {
         await http.post(url, headers: headers, body: convert.jsonEncode(body));
     var jsonResponse = convert.jsonDecode(response.body);
 
-    var email = jsonResponse["document"]["email"];
-    var senha = jsonResponse["document"]["senha"];
+    var email = jsonResponse["document"]["email"].toString();
+    var senha = jsonResponse["document"]["senha"].toString();
 
-    print(jsonResponse);
     print(email);
     print(senha);
+
+    if (email == user && senha == password) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
