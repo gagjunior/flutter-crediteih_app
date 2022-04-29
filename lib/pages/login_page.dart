@@ -159,9 +159,7 @@ class _LoginState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               onPressed: () {
-                Future<bool> isauthenticated = getCloudUsers(
-                    emailController.text, passwordController.text);
-                isauthenticated.then((value) => print(value));
+                getCloudUsers(emailController.text, passwordController.text);
                 bool usuarioAutenticado =
                     canAccess(emailController.text, passwordController.text);
                 if (usuarioAutenticado) {
@@ -231,33 +229,19 @@ class _LoginState extends State<LoginPage> {
 
   Future<bool> getCloudUsers(String user, String password) async {
     final url = Uri.parse(
-        'https://data.mongodb-api.com/app/data-uhnoa/endpoint/data/beta/action/findOne');
-    final headers = {
-      'Content-Type': 'application/json',
-      'Access-Control-Request-Headers': '*',
-      'api-key':
-          'Veyz7RSLg6PXeaFl8QJ4G0mIP3mfxq64UaysYVqz8XIbcM34yfnNVJ2NruAh63DH'
-    };
-    final body = {
-      'collection': 'users',
-      'database': 'crediteih_app',
-      'dataSource': 'CrediteihApp'
-    };
-
-    var response =
-        await http.post(url, headers: headers, body: convert.jsonEncode(body));
-    var jsonResponse = convert.jsonDecode(response.body);
-
-    var email = jsonResponse["document"]["email"].toString();
-    var senha = jsonResponse["document"]["senha"].toString();
-
-    print(email);
-    print(senha);
-
-    if (email == user && senha == password) {
-      return true;
-    } else {
+        'https://crediteihapp-default-rtdb.firebaseio.com/crediteih/users.json?print=pretty&key=AIzaSyCn0HImngZYaoKX6p2tY8Al16pivDWlhgo');
+    var response = await http.get(url);
+    var responseJson = convert.jsonDecode(response.body);
+    var usuario = responseJson?[user];
+    if (usuario == null) {
+      print('usuario não encontrado');
       return false;
+    } else {
+      var senha = usuario['password'];
+      print(senha);
+      print(usuario);
     }
+
+    return false;
   }
 }

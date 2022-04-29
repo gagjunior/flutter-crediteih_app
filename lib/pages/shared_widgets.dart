@@ -1,4 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
   return Padding(
@@ -70,4 +72,36 @@ Widget buttonMenuPage(String titulo, String subtitulo) {
     ),
     onPressed: () {},
   );
+}
+
+Future<bool> getCloudUsers(String user, String password) async {
+  final url = Uri.parse(
+      'https://data.mongodb-api.com/app/data-uhnoa/endpoint/data/beta/action/findOne');
+  final headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Request-Headers': '*',
+    'api-key':
+        'Veyz7RSLg6PXeaFl8QJ4G0mIP3mfxq64UaysYVqz8XIbcM34yfnNVJ2NruAh63DH'
+  };
+  final body = {
+    'collection': 'users',
+    'database': 'crediteih_app',
+    'dataSource': 'CrediteihApp'
+  };
+
+  var response =
+      await http.post(url, headers: headers, body: convert.jsonEncode(body));
+  var jsonResponse = convert.jsonDecode(response.body);
+
+  var email = jsonResponse["document"]["email"].toString();
+  var senha = jsonResponse["document"]["senha"].toString();
+
+  print(email);
+  print(senha);
+
+  if (email == user && senha == password) {
+    return true;
+  } else {
+    return false;
+  }
 }
