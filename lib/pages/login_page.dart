@@ -8,6 +8,8 @@ import 'dart:convert' as convert;
 import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/pages/home_page.dart';
 
+import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -159,7 +161,8 @@ class _LoginState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               onPressed: () {
-                getCloudUsers(emailController.text, passwordController.text);
+                testeAws();
+                //getCloudUsers(emailController.text, passwordController.text);
                 bool usuarioAutenticado =
                     canAccess(emailController.text, passwordController.text);
                 if (usuarioAutenticado) {
@@ -243,5 +246,19 @@ class _LoginState extends State<LoginPage> {
     }
 
     return false;
+  }
+
+  Future<void> testeAws() async {
+    final AwsClientCredentials credentials = AwsClientCredentials(
+        accessKey: 'AKIAVIYQ2KF7CZC4DNPX',
+        secretKey: '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');
+    final service = DynamoDB(region: 'sa-east-1', credentials: credentials);
+
+    var resposta = await service.getItem(
+        key: {'email': AttributeValue(s: 'admin@admin.com')},
+        tableName: 'users');
+
+    var respostaJson = resposta.item?['name']?.s;
+    print(respostaJson);
   }
 }
