@@ -28,33 +28,6 @@ class _UserCadPageState extends State<UserCadPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController cpfController = TextEditingController();
 
-  _UserCadPageState() {
-    final Configuration config = Configuration([User.schema]);
-    realm = Realm(config);
-    RealmResults<User> allUsers = realm.all<User>();
-
-    // Verifica se existe algum usuário criado
-    // Se não existir cria o usuário admin
-    if (allUsers.isEmpty) {
-      realm.write(() {
-        User admin = User('admin@admin.com', 'admin', 'admin123456');
-        realm.add(admin);
-      });
-    } else {
-      User admin = allUsers.last;
-      nomeController.text = admin.name;
-      emailController.text = admin.email;
-      if (admin.cpf != null && admin.cpf != '') {
-        cpfController.text = admin.cpf.toString();
-      } else {
-        cpfController.text = '';
-      }
-    }
-  }
-
-  late RealmResults<User> allUsers = realm.all<User>();
-  late User selectedUser = allUsers.last;
-
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
@@ -97,12 +70,12 @@ class _UserCadPageState extends State<UserCadPage> {
                   icon: const Icon(FluentIcons.edit),
                   label: const Text('Editar'),
                   onPressed: () {
-                    String email = emailController.text;
+                    /* String email = emailController.text;
                     selectedUser =
                         allUsers.query("email == '$email'").elementAt(0);
                     setState(() {
                       isReadOnly = false;
-                    });
+                    }); */
                   },
                 ),
               ),
@@ -182,7 +155,7 @@ class _UserCadPageState extends State<UserCadPage> {
                       onPressed: isReadOnly
                           ? null
                           : () {
-                              salvar(selectedUser);
+                              //salvar(selectedUser);
                             },
                       style: const ButtonStyle(),
                     ),
@@ -191,7 +164,7 @@ class _UserCadPageState extends State<UserCadPage> {
                   Expanded(
                     child: FilledButton(
                       child: const Text('Cancelar'),
-                      onPressed: isReadOnly ? null : cancelar,
+                      onPressed: null, //isReadOnly ? null : cancelar,
                       style: ButtonStyle(
                         backgroundColor: ButtonState.resolveWith((states) {
                           if (states.isNone) {
@@ -212,7 +185,7 @@ class _UserCadPageState extends State<UserCadPage> {
     );
   }
 
-  void salvar(User user) {
+  /* void salvar(User user) {
     String nome = nomeController.text;
     if (nome.isEmpty) {
       _showDialogErro(
@@ -239,7 +212,7 @@ class _UserCadPageState extends State<UserCadPage> {
       }
       isReadOnly = true;
     });
-  }
+  } */
 
   void _showDialogErro(String titulo, String conteudo) {
     showDialog(

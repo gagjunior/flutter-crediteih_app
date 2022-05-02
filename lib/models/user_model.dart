@@ -1,17 +1,8 @@
-import 'package:realm/realm.dart';
+class User {
+  final String email;
+  final String name;
+  final String password;
+  String? cpf;
 
-part 'user_model.g.dart';
-
-@RealmModel()
-class _User {
-  @PrimaryKey()
-  late final String email;
-
-  @Indexed()
-  late String name;
-
-  late String password;
-
-  @Indexed()
-  late String? cpf;
+  User(this.email, this.name, this.password, this.cpf);
 }

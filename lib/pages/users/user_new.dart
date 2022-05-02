@@ -27,11 +27,6 @@ class _NewUserPageState extends State<NewUserPage> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
-  _NewUserPageState() {
-    final Configuration config = Configuration([User.schema]);
-    realm = Realm(config);
-  }
-
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
