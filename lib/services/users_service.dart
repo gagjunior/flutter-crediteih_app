@@ -9,8 +9,11 @@ final service = DynamoDB(region: 'sa-east-1', credentials: credentials);
 
 class UserService {
   static Future<bool> isAuthenticated(String email, String password) async {
-    if (email == '' || email == null) {
+    if (email == '') {
       throw LoginUserException('Usuário não pode estar em branco');
+    }
+    if (password == '') {
+      throw LoginPasswordException('Senha não pode estar em branco');
     }
     GetItemOutput response = await service
         .getItem(key: {'email': AttributeValue(s: email)}, tableName: 'users');
@@ -18,11 +21,12 @@ class UserService {
     String? userPassword = response.item?['password']?.s.toString();
 
     if (user == null || user == '') {
-      throw LoginUserException('Erro no usuário');
+      throw LoginUserException(
+          'Usuário não encontrado\nVerifique com o administrador do sistema');
     }
 
     if (password != userPassword) {
-      throw LoginPasswordException('Erro na senha');
+      throw LoginPasswordException('Senha inválida');
     }
     return true;
   }
