@@ -6,6 +6,14 @@ Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
   return Padding(
     child: Row(
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+          child: Icon(
+            icon,
+            size: 26,
+            color: const Color.fromARGB(255, 10, 34, 255),
+          ),
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,51 +33,48 @@ Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            icon,
-            size: 26,
-            color: const Color.fromARGB(255, 10, 34, 255),
-          ),
-        ),
       ],
     ),
     padding: const EdgeInsets.all(8.0),
   );
 }
 
-Widget buttonMenuPage(String titulo, String subtitulo) {
+Widget buttonMenuPage(String titulo, String subtitulo, Widget page,
+    BuildContext context, IconData icon) {
   return Button(
-    style: ButtonStyle(
-      elevation: ButtonState.all(4),
-    ),
-    child: Row(
-      children: [
-        Icon(
-          FluentIcons.group,
-          size: 30,
-          semanticLabel: titulo,
-          textDirection: TextDirection.ltr,
-        ),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      style: ButtonStyle(
+        elevation: ButtonState.all(4),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
           children: [
-            Text(
-              titulo,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+            Icon(
+              icon,
+              size: 30,
+              semanticLabel: titulo,
+              textDirection: TextDirection.ltr,
             ),
-            Text(
-              subtitulo,
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  titulo,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  subtitulo,
+                ),
+              ],
             ),
           ],
         ),
-      ],
-    ),
-    onPressed: () {},
-  );
+      ),
+      onPressed: () {
+        Navigator.push(context, FluentPageRoute(builder: (context) => page));
+      });
 }
