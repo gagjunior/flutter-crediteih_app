@@ -1,7 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 
-import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/pages/users/user_new.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 
@@ -33,6 +32,19 @@ class _UserCadPageState extends State<UserCadPage> {
     return ScaffoldPage.scrollable(
       padding: const EdgeInsets.all(6),
       header: PageHeader(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            icon: const Icon(
+              FluentIcons.back,
+              size: 20,
+              color: Color.fromARGB(255, 10, 34, 255),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         title: titlePageHeader(FluentIcons.add_group, 'Cadastro de Usuários',
             'Cadastre e gerencie os usuários do sistema'),
       ),
