@@ -149,12 +149,10 @@ class _LoginState extends State<LoginPage> {
                           title: 'Crediteih App',
                         ),
                       ));
-                } on LoginUserException {
-                  _showDialogLogin('Erro de Usuário',
-                      'Usuário não encontrado\nVerifique com o administrador do sistema');
-                } on LoginPasswordException {
-                  _showDialogLogin(
-                      'Erro de Senha', 'A senha digitada está incorreta');
+                } on LoginUserException catch (e) {
+                  _showDialogLogin('Erro de Usuário', e.toString());
+                } on LoginPasswordException catch (e) {
+                  _showDialogLogin('Erro de Senha', e.toString());
                 }
               },
               style: ButtonStyle(
