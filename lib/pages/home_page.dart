@@ -1,10 +1,10 @@
 //Imports
+import 'package:crediteih_app/pages/menus/reports_page.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 //Imports crediteih_app
 import 'package:crediteih_app/pages/inicial_page.dart';
-import 'package:crediteih_app/pages/ncm_cad.dart';
-import 'package:crediteih_app/pages/users/user_cad.dart';
+import 'menus/records_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         header: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            'Crediteih',
+            'Menu - Crediteih',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color.fromARGB(255, 19, 52, 216),
@@ -43,35 +43,13 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(FluentIcons.home),
             title: const Text('Inicio'),
           ),
-          PaneItemSeparator(
-            thickness: 2.0,
-            color: const Color.fromARGB(255, 0, 100, 255),
-          ),
-          PaneItemHeader(
-            header: Row(
-              children: const [
-                Icon(FluentIcons.add_multiple),
-                SizedBox(
-                  width: 8,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Cadastros'),
-                ),
-              ],
-            ),
+          PaneItem(
+            icon: const Icon(FluentIcons.add_multiple),
+            title: const Text('Cadastros'),
           ),
           PaneItem(
-            icon: const Icon(FluentIcons.add_group),
-            title: const Text('Cadastro de Usuários'),
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.list),
-            title: const Text('Cadastros de NCM'),
-          ),
-          PaneItemSeparator(
-            thickness: 2.0,
-            color: const Color.fromARGB(255, 0, 100, 255),
+            icon: const Icon(FluentIcons.report_document),
+            title: const Text('Relatórios'),
           ),
         ],
       ),
@@ -81,8 +59,8 @@ class _HomePageState extends State<HomePage> {
         index: _currentPage,
         children: const <Widget>[
           InicialPage(),
-          UserCadPage(),
-          NcmCadPage(),
+          RecordsMenuPage(),
+          ReportsMenuPage(),
         ],
       ),
     );
