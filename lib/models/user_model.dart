@@ -4,5 +4,9 @@ class User {
   final String password;
   String? cpf;
 
-  User(this.email, this.name, this.password, this.cpf);
+  User(
+      {required this.email,
+      required this.name,
+      required this.password,
+      this.cpf});
 }
