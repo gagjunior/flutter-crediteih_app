@@ -140,8 +140,10 @@ class _LoginState extends State<LoginPage> {
               ),
               onPressed: () async {
                 try {
+                  _showProgress(context, 'Login', 'Conectando...');
                   await UserService.isAuthenticated(
-                      emailController.text, passwordController.text);
+                          emailController.text, passwordController.text)
+                      .then((value) => Navigator.of(context).pop());
                   Navigator.push(
                       context,
                       FluentPageRoute(
@@ -150,8 +152,10 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ));
                 } on LoginUserException catch (e) {
+                  Navigator.of(context).pop();
                   _showDialogLogin('Erro de Usuário', e.toString());
                 } on LoginPasswordException catch (e) {
+                  Navigator.of(context).pop();
                   _showDialogLogin('Erro de Senha', e.toString());
                 }
               },
@@ -187,6 +191,25 @@ class _LoginState extends State<LoginPage> {
                 Navigator.pop(context);
               })
         ],
+      ),
+    );
+  }
+
+  void _showProgress(BuildContext context, String title, String msg) {
+    showDialog(
+      context: context,
+      builder: (_) => ContentDialog(
+        title: Text(title),
+        content: SizedBox(
+          height: 100,
+          width: 150,
+          child: Column(
+            children: [
+              ProgressRing(),
+              Text(msg),
+            ],
+          ),
+        ),
       ),
     );
   }
