@@ -15,8 +15,8 @@ class UserService {
     if (password == '') {
       throw LoginPasswordException('Senha não pode estar em branco');
     }
-    GetItemOutput response = await service
-        .getItem(key: {'email': AttributeValue(s: email)}, tableName: 'users');
+    GetItemOutput response = await service.getItem(
+        key: {'email': AttributeValue(s: email)}, tableName: 'CrediteihUsers');
     String? user = response.item?['email']?.s.toString();
     String? userPassword = response.item?['password']?.s.toString();
 
