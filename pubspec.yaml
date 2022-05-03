@@ -29,7 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  fluent_ui: ^3.10.2
+  fluent_ui: ^3.11.1
   system_theme: ^2.0.0
   realm: ^0.2.1+alpha
   email_validator: ^2.0.1
