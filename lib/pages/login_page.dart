@@ -1,12 +1,13 @@
 //Imports de terceiros
 import 'package:crediteih_app/services/users_service.dart';
-import 'package:realm/realm.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
 //Imports do projeto
 import 'package:crediteih_app/pages/home_page.dart';
 
 import '../exceptions/login_exception.dart';
+
+const String codCli = 'CTBA0001';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -16,7 +17,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginPage> {
-  late Realm realm;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -38,8 +38,7 @@ class _LoginState extends State<LoginPage> {
                     child: Image.asset('images/logo_app.png')),
               ),
             ),
-            // ignore: sized_box_for_whitespace
-            Container(
+            SizedBox(
               width: 500,
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -79,8 +78,7 @@ class _LoginState extends State<LoginPage> {
                 ),
               ),
             ),
-            // ignore: sized_box_for_whitespace
-            Container(
+            SizedBox(
               width: 500,
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -142,7 +140,7 @@ class _LoginState extends State<LoginPage> {
                 try {
                   _showProgress(context, 'Login', 'Conectando...');
                   await UserService.isAuthenticated(
-                          emailController.text, passwordController.text)
+                          emailController.text, passwordController.text, codCli)
                       .then((value) => Navigator.of(context).pop());
                   Navigator.push(
                       context,
@@ -169,6 +167,25 @@ class _LoginState extends State<LoginPage> {
                     return const Color.fromARGB(255, 10, 85, 247);
                   }
                 }),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            SizedBox(
+              width: 500,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      FluentIcons.settings_add,
+                      size: 22,
+                      color: Colors.blue,
+                    ),
+                    onPressed: () {},
+                  ),
+                ],
               ),
             ),
           ],
@@ -205,7 +222,7 @@ class _LoginState extends State<LoginPage> {
           width: 150,
           child: Column(
             children: [
-              ProgressRing(),
+              const ProgressRing(),
               Text(msg),
             ],
           ),
