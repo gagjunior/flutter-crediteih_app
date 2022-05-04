@@ -1,6 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
   return Padding(
