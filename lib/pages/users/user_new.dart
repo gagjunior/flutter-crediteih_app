@@ -4,7 +4,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
-import 'package:realm/realm.dart';
 
 class NewUserPage extends StatefulWidget {
   const NewUserPage({Key? key}) : super(key: key);
@@ -14,8 +13,6 @@ class NewUserPage extends StatefulWidget {
 }
 
 class _NewUserPageState extends State<NewUserPage> {
-  late Realm realm;
-
   bool isReadOnly = false;
   bool isObscureText = true;
 

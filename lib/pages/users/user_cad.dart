@@ -6,7 +6,6 @@ import 'package:crediteih_app/pages/shared_widgets.dart';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:get/get.dart';
-import 'package:realm/realm.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 
 const Widget spacer = SizedBox(height: 6.0);
@@ -19,8 +18,6 @@ class UserCadPage extends StatefulWidget {
 }
 
 class _UserCadPageState extends State<UserCadPage> {
-  late Realm realm;
-
   bool isReadOnly = true;
 
   final TextEditingController nomeController = TextEditingController();
