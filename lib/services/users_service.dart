@@ -2,7 +2,6 @@ import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
 
 const String usersTableName = 'Crediteih_Users';
-const String codCli = 'CTBA001';
 
 final AwsClientCredentials credentials = AwsClientCredentials(
     accessKey: 'AKIAVIYQ2KF7CZC4DNPX',
@@ -11,15 +10,18 @@ final AwsClientCredentials credentials = AwsClientCredentials(
 final service = DynamoDB(region: 'sa-east-1', credentials: credentials);
 
 class UserService {
-  static Future<bool> isAuthenticated(String email, String password) async {
+  static Future<bool> isAuthenticated(
+      String email, String password, String codCli) async {
     if (email == '') {
       throw LoginUserException('Usuário não pode estar em branco');
     }
     if (password == '') {
       throw LoginPasswordException('Senha não pode estar em branco');
     }
-    GetItemOutput response = await service.getItem(
-        key: {'email': AttributeValue(s: email)}, tableName: usersTableName);
+    GetItemOutput response = await service.getItem(key: {
+      'email': AttributeValue(s: email),
+      'clientId': AttributeValue(s: codCli)
+    }, tableName: usersTableName);
     String? user = response.item?['email']?.s.toString();
     String? userPassword = response.item?['password']?.s.toString();
 
