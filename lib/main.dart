@@ -1,10 +1,14 @@
 import 'package:crediteih_app/pages/login_page.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:system_theme/system_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemTheme.accentColor.load();
+  await Hive.initFlutter();
+  await Hive.openBox('settings');
   runApp(const CrediteihApp());
 }
 

@@ -1,11 +1,12 @@
 //Imports de terceiros
-import 'package:crediteih_app/services/users_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 //Imports do projeto
 import 'package:crediteih_app/pages/home_page.dart';
-
-import '../exceptions/login_exception.dart';
+import 'package:crediteih_app/exceptions/login_exception.dart';
+import 'package:crediteih_app/services/users_service.dart';
 
 const String codCli = 'CTBA0001';
 
@@ -19,6 +20,8 @@ class LoginPage extends StatefulWidget {
 class _LoginState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late final Box boxSettings;
+  late String? clientId;
 
   bool _showPassword = false;
 
@@ -170,18 +173,28 @@ class _LoginState extends State<LoginPage> {
               ),
             ),
             const SizedBox(
-              height: 50,
+              height: 70,
             ),
             SizedBox(
               width: 500,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    icon: Icon(
-                      FluentIcons.settings_add,
-                      size: 22,
-                      color: Colors.blue,
+                  Button(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            FluentIcons.settings_add,
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Text('Configurações'),
+                        ],
+                      ),
                     ),
                     onPressed: () {},
                   ),
