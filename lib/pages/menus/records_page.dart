@@ -1,5 +1,4 @@
 import 'package:crediteih_app/pages/customers/customer_cad.dart';
-import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/pages/users/user_cad.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
@@ -20,10 +19,10 @@ class RecordsMenuPage extends StatelessWidget {
       ),
       children: [
         buttonMenuPage('Usuários', 'Gerencie ou cadastre usuários',
-            UserCadPage(), context, FluentIcons.group),
+            const UserCadPage(), context, FluentIcons.group),
         separator,
         buttonMenuPage('Clientes', 'Gerencie ou cadastre clientes',
-            CustomerCadPage(), context, FluentIcons.manager_self_service),
+            const CustomerCadPage(), context, FluentIcons.manager_self_service),
       ],
     );
   }

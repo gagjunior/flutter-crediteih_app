@@ -23,10 +23,10 @@ class _ReportsMenuPageState extends State<ReportsMenuPage> {
       ),
       children: [
         buttonMenuPage('Usuários', 'Gerencie ou cadastre usuários',
-            UserCadPage(), context, FluentIcons.group),
+            const UserCadPage(), context, FluentIcons.group),
         separator,
         buttonMenuPage('Clientes', 'Gerencie ou cadastre clientes',
-            CustomerCadPage(), context, FluentIcons.manager_self_service),
+            const CustomerCadPage(), context, FluentIcons.manager_self_service),
       ],
     );
   }

@@ -29,7 +29,7 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
         title: titlePageHeader(FluentIcons.manager_self_service,
             'Cadastro de Clientes', 'Cadastre e gerencie clientes'),
       ),
-      children: [],
+      children: const [],
     );
   }
 }
