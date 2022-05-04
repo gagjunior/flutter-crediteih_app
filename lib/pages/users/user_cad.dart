@@ -226,20 +226,4 @@ class _UserCadPageState extends State<UserCadPage> {
     });
   } */
 
-  void _showDialogErro(String titulo, String conteudo) {
-    showDialog(
-      context: context,
-      builder: (_) => ContentDialog(
-        title: Text(titulo),
-        content: Text(conteudo),
-        actions: [
-          FilledButton(
-              child: const Text('Voltar'),
-              onPressed: () {
-                Navigator.pop(context);
-              })
-        ],
-      ),
-    );
-  }
 }
