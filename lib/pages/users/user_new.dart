@@ -6,8 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:realm/realm.dart';
 
-import '../../models/user_model.dart';
-
 class NewUserPage extends StatefulWidget {
   const NewUserPage({Key? key}) : super(key: key);
 
