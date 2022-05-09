@@ -1,7 +1,10 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
+import 'package:crediteih_app/services/config_service.dart';
 
 const String usersTableName = 'Crediteih_Users';
+ConfigService configService = ConfigService();
+DynamoDB service = configService.startService();
 
 /*final AwsClientCredentials credentials = AwsClientCredentials(
     accessKey: 'AKIAVIYQ2KF7CZC4DNPX',
@@ -10,26 +13,7 @@ const String usersTableName = 'Crediteih_Users';
 //final service = DynamoDB(region: 'sa-east-1', credentials: credentials);
 
 class UserService {
-  late final String accessKey;
-  late final String secretkey;
-  late final String region;
-  late final String clientId;
-  late final AwsClientCredentials credentials;
-  late final DynamoDB service;
-
-  UserService({
-    required String accessKey,
-    required String secretkey,
-    required String region,
-    required String clientId,
-  }) {
-    credentials =
-        AwsClientCredentials(accessKey: accessKey, secretKey: secretkey);
-    service = DynamoDB(region: region, credentials: credentials);
-  }
-
-  Future<bool> isAuthenticated(
-      String email, String password, String codCli) async {
+  static Future<bool> isAuthenticated(String email, String password) async {
     if (email == '') {
       throw LoginUserException('Usuário não pode estar em branco');
     }
@@ -38,7 +22,7 @@ class UserService {
     }
     GetItemOutput response = await service.getItem(key: {
       'email': AttributeValue(s: email),
-      'clientId': AttributeValue(s: codCli)
+      'clientId': AttributeValue(s: configService.clientId)
     }, tableName: usersTableName);
     String? user = response.item?['email']?.s.toString();
     String? userPassword = response.item?['password']?.s.toString();
