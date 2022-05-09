@@ -1,14 +1,17 @@
 //Imports de terceiros
+import 'package:crediteih_app/exceptions/config_exception.dart';
+import 'package:crediteih_app/services/config_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 //Imports do projeto
 import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
 import 'package:crediteih_app/services/users_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 //const String codCli = 'CTBA0001';
+ConfigService configService = ConfigService();
+final Box boxSettings = Hive.box('settings');
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,9 +27,8 @@ class _LoginState extends State<LoginPage> {
   final TextEditingController accessKeyController = TextEditingController();
   final TextEditingController secretKeyController = TextEditingController();
   final TextEditingController regionController = TextEditingController();
-  late final UserService userService;
+
   bool _showPassword = false;
-  final Box boxSettings = Hive.box('settings');
 
   @override
   Widget build(BuildContext context) {
@@ -144,29 +146,10 @@ class _LoginState extends State<LoginPage> {
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
                 onPressed: () async {
-                  final String? codCli = await boxSettings.get('codCli');
-                  final String? accessKey = await boxSettings.get('accessKey');
-                  final String? secretKey = await boxSettings.get('secretKey');
-                  final String? region = await boxSettings.get('region');
-
-                  if (codCli == null || accessKey == null) {
-                    print(codCli);
-                    _showDialogLogin('Configurações',
-                        'Primeiro acesso?\nAcesse as configurações e cadastre seu código de cliente e chave de acesso');
-                    return;
-                  } else {
-                    userService = UserService(
-                        accessKey: accessKey,
-                        secretkey: secretKey!,
-                        region: region!,
-                        clientId: codCli);
-                  }
-
                   try {
                     _showProgress(context, 'Login', 'Conectando...');
-                    await userService
-                        .isAuthenticated(emailController.text,
-                            passwordController.text, codCli)
+                    await UserService.isAuthenticated(
+                            emailController.text, passwordController.text)
                         .then((value) => Navigator.of(context).pop());
                     Navigator.push(
                         context,
@@ -181,6 +164,9 @@ class _LoginState extends State<LoginPage> {
                   } on LoginPasswordException catch (e) {
                     Navigator.of(context).pop();
                     _showDialogLogin('Erro de Senha', e.toString());
+                  } on ConfigException catch (e) {
+                    Navigator.of(context).pop();
+                    _showDialogLogin('Configurações', e.toString());
                   }
                 },
                 style: ButtonStyle(
@@ -220,9 +206,13 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                       onPressed: () {
-                        codCliController.text = boxSettings.get('codCli');
-                        accessKeyController.text = boxSettings.get('accessKey');
-                        secretKeyController.text = boxSettings.get('text');
+                        codCliController.text =
+                            boxSettings.get('clientId') ?? '';
+                        accessKeyController.text =
+                            boxSettings.get('accessKey') ?? '';
+                        secretKeyController.text =
+                            configService.secretkey ?? '';
+                        regionController.text = configService.region ?? '';
                         _showConfigDialog('Configurações');
                       },
                     ),
@@ -321,22 +311,14 @@ class _LoginState extends State<LoginPage> {
           FilledButton(
               child: const Text('Salvar'),
               onPressed: () {
-                saveSettings(codCliController.text, accessKeyController.text,
-                    secretKeyController.text, regionController.text);
-                Navigator.pop(context);
+                configService.saveSettings(
+                    codCliController.text,
+                    accessKeyController.text,
+                    secretKeyController.text,
+                    regionController.text);
               })
         ],
       ),
     );
-  }
-
-  void saveSettings(
-      String codCli, String accessKey, String secretKey, String region) {
-    boxSettings.putAll({
-      'codCli': codCli,
-      'accessKey': accessKey,
-      'secretKey': secretKey,
-      'region': region
-    });
   }
 }
