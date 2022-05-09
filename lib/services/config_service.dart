@@ -4,19 +4,19 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ConfigService {
-  final Box boxSettings = Hive.box('settings');
-  String? _accessKey;
-  String? _secretkey;
-  String? _clientId;
-  String? _region;
+  static final Box boxSettings = Hive.box('settings');
+  static String? _accessKey;
+  static String? _secretkey;
+  static String? _clientId;
+  static String? _region;
 
   String? get accessKey => _accessKey;
   String? get secretkey => _secretkey;
   String? get clientId => _clientId;
   String? get region => _region;
 
-  late final AwsClientCredentials credentials;
-  late final DynamoDB service;
+  static late final AwsClientCredentials credentials;
+  static late final DynamoDB service;
 
   set accessKey(String? accessKey) {
     if (accessKey == null) {
@@ -50,20 +50,20 @@ class ConfigService {
     }
   }
 
-  DynamoDB startService() {
-    accessKey = boxSettings.get('accessKey');
-    secretkey = boxSettings.get('secretkey');
-    clientId = boxSettings.get('clientId');
-    region = boxSettings.get('region');
+  static DynamoDB startService() {
+    _accessKey = boxSettings.get('accessKey');
+    _secretkey = boxSettings.get('secretkey');
+    _clientId = boxSettings.get('clientId');
+    _region = boxSettings.get('region');
 
     credentials =
-        AwsClientCredentials(accessKey: accessKey!, secretKey: secretkey!);
-    service = DynamoDB(region: region!, credentials: credentials);
+        AwsClientCredentials(accessKey: _accessKey!, secretKey: _secretkey!);
+    service = DynamoDB(region: _region!, credentials: credentials);
 
     return service;
   }
 
-  void saveSettings(
+  static void saveSettings(
       String codCli, String accessKey, String secretKey, String region) {
     boxSettings.putAll({
       'clientId': codCli,

@@ -3,8 +3,8 @@ import 'package:crediteih_app/exceptions/login_exception.dart';
 import 'package:crediteih_app/services/config_service.dart';
 
 const String usersTableName = 'Crediteih_Users';
-ConfigService configService = ConfigService();
-DynamoDB service = configService.startService();
+final DynamoDB service = ConfigService.startService();
+final String? clientId = ConfigService().clientId;
 
 /*final AwsClientCredentials credentials = AwsClientCredentials(
     accessKey: 'AKIAVIYQ2KF7CZC4DNPX',
@@ -22,7 +22,7 @@ class UserService {
     }
     GetItemOutput response = await service.getItem(key: {
       'email': AttributeValue(s: email),
-      'clientId': AttributeValue(s: configService.clientId)
+      'clientId': AttributeValue(s: clientId)
     }, tableName: usersTableName);
     String? user = response.item?['email']?.s.toString();
     String? userPassword = response.item?['password']?.s.toString();
