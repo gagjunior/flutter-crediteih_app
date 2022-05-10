@@ -10,45 +10,8 @@ class ConfigService {
   static String? _clientId;
   static String? _region;
 
-  String? get accessKey => _accessKey;
-  String? get secretkey => _secretkey;
-  String? get clientId => _clientId;
-  String? get region => _region;
-
-  static late final AwsClientCredentials credentials;
-  static late final DynamoDB service;
-
-  set accessKey(String? accessKey) {
-    if (accessKey == null) {
-      throw ConfigException('Chave de acesso não pode estar em branco');
-    } else {
-      _accessKey = accessKey;
-    }
-  }
-
-  set secretkey(String? secretkey) {
-    if (secretkey == null) {
-      throw ConfigException('Chave secreta não pode estar em branco');
-    } else {
-      _secretkey = secretkey;
-    }
-  }
-
-  set clientId(String? clientId) {
-    if (clientId == null) {
-      throw ConfigException('Código do cliente não pode estar em branco');
-    } else {
-      _clientId = clientId;
-    }
-  }
-
-  set region(String? region) {
-    if (region == null) {
-      throw ConfigException('Região não pode estar em branco');
-    } else {
-      _region = region;
-    }
-  }
+  static late final AwsClientCredentials _credentials;
+  static late final DynamoDB _service;
 
   static DynamoDB startService() {
     _accessKey = boxSettings.get('accessKey');
@@ -56,20 +19,41 @@ class ConfigService {
     _clientId = boxSettings.get('clientId');
     _region = boxSettings.get('region');
 
-    credentials =
+    if (_accessKey == null) {
+      throw ConfigException('Chave de acesso não pode estar em branco');
+    }
+    if (_secretkey == null) {
+      throw ConfigException('Chave de secreta não pode estar em branco');
+    }
+    if (_clientId == null) {
+      throw ConfigException('Código do cliente não pode estar em branco');
+    }
+    if (_region == null) {
+      throw ConfigException('Código do cliente não pode estar em branco');
+    }
+    _credentials =
         AwsClientCredentials(accessKey: _accessKey!, secretKey: _secretkey!);
-    service = DynamoDB(region: _region!, credentials: credentials);
+    _service = DynamoDB(region: _region!, credentials: _credentials);
 
-    return service;
+    return _service;
   }
 
   static void saveSettings(
-      String codCli, String accessKey, String secretKey, String region) {
+      String clientId, String accessKey, String secretKey, String region) {
     boxSettings.putAll({
-      'clientId': codCli,
+      'clientId': clientId,
       'accessKey': accessKey,
       'secretkey': secretKey,
       'region': region
     });
+  }
+
+  static Map<String, String> getConfigs() {
+    return {
+      'clientId': boxSettings.get('clientId'),
+      'accessKey': boxSettings.get('accessKey'),
+      'secretkey': boxSettings.get('secretkey'),
+      'region': boxSettings.get('region'),
+    };
   }
 }
