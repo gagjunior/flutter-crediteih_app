@@ -19,18 +19,21 @@ class ConfigService {
     _clientId = boxSettings.get('clientId');
     _region = boxSettings.get('region');
 
-    if (_accessKey == null) {
+    if (_accessKey == null || _accessKey == '') {
       throw ConfigException('Chave de acesso não pode estar em branco');
     }
-    if (_secretkey == null) {
+    if (_secretkey == null || _secretkey == '') {
       throw ConfigException('Chave de secreta não pode estar em branco');
     }
-    if (_clientId == null) {
+    if (_clientId == null || _clientId == '') {
       throw ConfigException('Código do cliente não pode estar em branco');
     }
-    if (_region == null) {
+    if (_region == null || _region == '') {
       throw ConfigException('Código do cliente não pode estar em branco');
     }
+
+    print(_clientId);
+
     _credentials =
         AwsClientCredentials(accessKey: _accessKey!, secretKey: _secretkey!);
     _service = DynamoDB(region: _region!, credentials: _credentials);

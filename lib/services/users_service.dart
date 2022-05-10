@@ -3,8 +3,6 @@ import 'package:crediteih_app/exceptions/login_exception.dart';
 import 'package:crediteih_app/services/config_service.dart';
 
 const String usersTableName = 'Crediteih_Users';
-final DynamoDB service = ConfigService.startService();
-final Map? getConfigs = ConfigService.getConfigs();
 
 /*final AwsClientCredentials credentials = AwsClientCredentials(
     accessKey: 'AKIAVIYQ2KF7CZC4DNPX',
@@ -13,6 +11,8 @@ final Map? getConfigs = ConfigService.getConfigs();
 //final service = DynamoDB(region: 'sa-east-1', credentials: credentials);
 
 class UserService {
+  static final DynamoDB service = ConfigService.startService();
+  static final Map getConfigs = ConfigService.getConfigs();
   static Future<bool> isAuthenticated(String email, String password) async {
     if (email == '') {
       throw LoginUserException('Usuário não pode estar em branco');
@@ -22,7 +22,7 @@ class UserService {
     }
     GetItemOutput response = await service.getItem(key: {
       'email': AttributeValue(s: email),
-      'clientId': AttributeValue(s: getConfigs!['clientId'])
+      'clientId': AttributeValue(s: getConfigs['clientId'])
     }, tableName: usersTableName);
     String? user = response.item?['email']?.s.toString();
     String? userPassword = response.item?['password']?.s.toString();

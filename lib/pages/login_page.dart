@@ -205,13 +205,16 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                       onPressed: () {
-                        clientIdController.text = getConfigs['clientId'] ?? '';
-                        accessKeyController.text =
-                            getConfigs['accessKey'] ?? '';
-                        secretKeyController.text =
-                            getConfigs['secretkey'] ?? '';
-                        regionController.text = getConfigs['region'] ?? '';
-                        _showConfigDialog('Configurações');
+                        setState(() {
+                          clientIdController.text =
+                              getConfigs['clientId'] ?? '';
+                          accessKeyController.text =
+                              getConfigs['accessKey'] ?? '';
+                          secretKeyController.text =
+                              getConfigs['secretkey'] ?? '';
+                          regionController.text = getConfigs['region'] ?? '';
+                          _showConfigDialog('Configurações');
+                        });
                       },
                     ),
                   ],
