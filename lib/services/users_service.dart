@@ -4,7 +4,7 @@ import 'package:crediteih_app/services/config_service.dart';
 
 const String usersTableName = 'Crediteih_Users';
 final DynamoDB service = ConfigService.startService();
-final String? clientId = ConfigService().clientId;
+final Map? getConfigs = ConfigService.getConfigs();
 
 /*final AwsClientCredentials credentials = AwsClientCredentials(
     accessKey: 'AKIAVIYQ2KF7CZC4DNPX',
@@ -22,7 +22,7 @@ class UserService {
     }
     GetItemOutput response = await service.getItem(key: {
       'email': AttributeValue(s: email),
-      'clientId': AttributeValue(s: clientId)
+      'clientId': AttributeValue(s: getConfigs!['clientId'])
     }, tableName: usersTableName);
     String? user = response.item?['email']?.s.toString();
     String? userPassword = response.item?['password']?.s.toString();

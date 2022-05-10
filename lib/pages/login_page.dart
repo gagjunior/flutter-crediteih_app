@@ -7,11 +7,10 @@ import 'package:email_validator/email_validator.dart';
 import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
 import 'package:crediteih_app/services/users_service.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 //const String codCli = 'CTBA0001';
-ConfigService configService = ConfigService();
-final Box boxSettings = Hive.box('settings');
+
+final Map getConfigs = ConfigService.getConfigs();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController codCliController = TextEditingController();
+  final TextEditingController clientIdController = TextEditingController();
   final TextEditingController accessKeyController = TextEditingController();
   final TextEditingController secretKeyController = TextEditingController();
   final TextEditingController regionController = TextEditingController();
@@ -206,13 +205,12 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                       onPressed: () {
-                        codCliController.text =
-                            boxSettings.get('clientId') ?? '';
+                        clientIdController.text = getConfigs['clientId'] ?? '';
                         accessKeyController.text =
-                            boxSettings.get('accessKey') ?? '';
+                            getConfigs['accessKey'] ?? '';
                         secretKeyController.text =
-                            configService.secretkey ?? '';
-                        regionController.text = configService.region ?? '';
+                            getConfigs['secretkey'] ?? '';
+                        regionController.text = getConfigs['region'] ?? '';
                         _showConfigDialog('Configurações');
                       },
                     ),
@@ -273,18 +271,18 @@ class _LoginState extends State<LoginPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Insira os dados abaixo:',
                   style: TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextFormBox(
                   header: 'Código de cliente:',
-                  controller: codCliController,
+                  controller: clientIdController,
                 ),
                 TextFormBox(
                   header: 'Chave de acesso:',
@@ -311,11 +309,14 @@ class _LoginState extends State<LoginPage> {
           FilledButton(
               child: const Text('Salvar'),
               onPressed: () {
-                configService.saveSettings(
-                    codCliController.text,
-                    accessKeyController.text,
-                    secretKeyController.text,
-                    regionController.text);
+                setState(() {
+                  ConfigService.saveSettings(
+                      clientIdController.text,
+                      accessKeyController.text,
+                      secretKeyController.text,
+                      regionController.text);
+                  Navigator.pop(context);
+                });
               })
         ],
       ),
