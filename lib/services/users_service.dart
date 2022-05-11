@@ -1,18 +1,23 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
+import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/services/config_service.dart';
 
 const String usersTableName = 'Crediteih_Users';
 
-/*final AwsClientCredentials credentials = AwsClientCredentials(
-    accessKey: 'AKIAVIYQ2KF7CZC4DNPX',
-    secretKey: '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');*/
-
-//final service = DynamoDB(region: 'sa-east-1', credentials: credentials);
-
 class UserService {
   static final DynamoDB service = ConfigService.startService();
   static final Map getConfigs = ConfigService.getConfigs();
+
+  static void saveNewUser(User user) {
+    final String value = '{' +
+        '"email":"${user.email}",' +
+        '"clientId":"${getConfigs['clientId']}",' +
+        '}';
+    const String statament = 'INSERT INTO $usersTableName VALUE ';
+  }
+
+  // Metodo que faz a autenticação do usuário
   static Future<bool> isAuthenticated(String email, String password) async {
     if (email == '') {
       throw LoginUserException('Usuário não pode estar em branco');
