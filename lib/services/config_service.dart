@@ -31,9 +31,6 @@ class ConfigService {
     if (_region == null || _region == '') {
       throw ConfigException('Código do cliente não pode estar em branco');
     }
-
-    print(_clientId);
-
     _credentials =
         AwsClientCredentials(accessKey: _accessKey!, secretKey: _secretkey!);
     _service = DynamoDB(region: _region!, credentials: _credentials);
