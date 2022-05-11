@@ -298,6 +298,13 @@ class _LoginState extends State<LoginPage> {
                 TextFormBox(
                   header: 'Região',
                   controller: regionController,
+                ),
+                Text(
+                  'É necessário REINICIAR o aplicativo após alterar as configurações',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 18,
+                  ),
                 )
               ],
             ),
