@@ -1,4 +1,3 @@
-import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
