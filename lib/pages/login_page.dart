@@ -300,7 +300,9 @@ class _LoginState extends State<LoginPage> {
                   controller: regionController,
                 ),
                 Text(
-                  'É necessário REINICIAR o aplicativo após alterar as configurações',
+                  'REINICIAR\n' +
+                      'Após alterar as configurações ' +
+                      'é necessário REINICIAR o aplicativo',
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 18,
