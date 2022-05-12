@@ -48,7 +48,7 @@ class ConfigService {
     });
   }
 
-  static Map<String, String> getConfigs() {
+  static Map<String, dynamic> getConfigs() {
     return {
       'clientId': boxSettings.get('clientId'),
       'accessKey': boxSettings.get('accessKey'),
