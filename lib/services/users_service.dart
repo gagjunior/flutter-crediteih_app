@@ -32,7 +32,7 @@ class UserService {
         'password': '${user.password}'
       }
     """;
-    var teste = await service
+    await service
         .executeStatement(statement: value)
         .onError<DuplicateItemException>((error, stackTrace) {
       throw Exception();
