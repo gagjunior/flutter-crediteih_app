@@ -35,7 +35,11 @@ class UserService {
     await service
         .executeStatement(statement: value)
         .onError<DuplicateItemException>((error, stackTrace) {
-      throw Exception();
+      if (error.code == 'DuplicateItemException') {
+        throw Exception('Já existe usuário criado com o e-mail informado');
+      } else {
+        throw Exception();
+      }
     });
   }
 
