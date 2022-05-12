@@ -9,12 +9,34 @@ class UserService {
   static final DynamoDB service = ConfigService.startService();
   static final Map getConfigs = ConfigService.getConfigs();
 
-  static void saveNewUser(User user) {
-    final String value = '{' +
-        '"email":"${user.email}",' +
-        '"clientId":"${getConfigs['clientId']}",' +
-        '}';
-    const String statament = 'INSERT INTO $usersTableName VALUE ';
+  static Future<void> saveNewUser(User user) async {
+    String value = """
+      INSERT INTO $usersTableName VALUE
+      {
+        'email': '${user.email}',
+        'clientId': '${getConfigs['clientId']}',
+        'address': {
+          'cep': '',
+          'cidade': 'Curitiba',
+          'complemento': '',
+          'logradouro': '',
+          'numero': 0,
+          'referencias': [
+          'Escola',
+          'Mercado'
+          ],
+          'uf': 'PR'
+        },
+        'cpf': '${user.cpf}',
+        'name': '${user.name}',
+        'password': '${user.password}'
+      }
+    """;
+    var teste = await service
+        .executeStatement(statement: value)
+        .onError<DuplicateItemException>((error, stackTrace) {
+      throw Exception();
+    });
   }
 
   // Metodo que faz a autenticação do usuário

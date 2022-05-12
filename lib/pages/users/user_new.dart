@@ -1,5 +1,8 @@
+import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
+import 'package:crediteih_app/services/users_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
@@ -16,11 +19,12 @@ class _NewUserPageState extends State<NewUserPage> {
   bool isReadOnly = false;
   bool isObscureText = true;
 
-  final TextEditingController nome = TextEditingController();
-  final TextEditingController email = TextEditingController();
-  final TextEditingController cpf = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  final TextEditingController confirmPassword = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController cpfController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +60,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 readOnly: isReadOnly,
                 maxLength: 100,
                 keyboardType: TextInputType.emailAddress,
-                controller: email,
+                controller: emailController,
                 textInputAction: TextInputAction.next,
                 autovalidateMode: AutovalidateMode.always,
                 validator: (text) {
@@ -78,7 +82,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 readOnly: isReadOnly,
                 maxLength: 100,
                 keyboardType: TextInputType.text,
-                controller: nome,
+                controller: nameController,
                 textInputAction: TextInputAction.next,
                 obscureText: isObscureText,
                 obscuringCharacter: '◉',
@@ -97,7 +101,7 @@ class _NewUserPageState extends State<NewUserPage> {
               child: TextFormBox(
                 header: 'CPF',
                 readOnly: isReadOnly,
-                controller: cpf,
+                controller: cpfController,
                 maxLength: 15,
                 placeholder: 'digite apenas os numeros do seu CPF',
                 textInputAction: TextInputAction.next,
@@ -125,7 +129,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 readOnly: isReadOnly,
                 maxLength: 12,
                 keyboardType: TextInputType.visiblePassword,
-                controller: password,
+                controller: passwordController,
                 textInputAction: TextInputAction.next,
                 obscureText: isObscureText,
                 obscuringCharacter: '◉',
@@ -157,7 +161,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 readOnly: isReadOnly,
                 maxLength: 12,
                 keyboardType: TextInputType.visiblePassword,
-                controller: confirmPassword,
+                controller: confirmPasswordController,
                 textInputAction: TextInputAction.next,
               ),
             ),
@@ -170,7 +174,19 @@ class _NewUserPageState extends State<NewUserPage> {
                   Expanded(
                     child: FilledButton(
                       child: const Text('Salvar'),
-                      onPressed: () {},
+                      onPressed: () async {
+                        User newUser = User(
+                          email: emailController.text,
+                          name: nameController.text,
+                          password: passwordController.text,
+                          cpf: cpfController.text,
+                        );
+                        try {
+                          await UserService.saveNewUser(newUser);
+                        } on Exception catch (e) {
+                          _showErrorDialog('Erro ao Salvar', e.toString());
+                        }
+                      },
                       style: const ButtonStyle(),
                     ),
                   ),
@@ -196,6 +212,23 @@ class _NewUserPageState extends State<NewUserPage> {
           ],
         )
       ],
+    );
+  }
+
+  void _showErrorDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (_) => ContentDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          FilledButton(
+              child: const Text('Voltar'),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
+      ),
     );
   }
 }
