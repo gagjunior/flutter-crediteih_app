@@ -299,12 +299,12 @@ class _LoginState extends State<LoginPage> {
                   header: 'Região',
                   controller: regionController,
                 ),
-                Text(
-                  'REINICIAR\n' +
-                      'Após alterar as configurações ' +
-                      'é necessário REINICIAR o aplicativo',
+                const Text(
+                  'REINICIAR\n'
+                  'Após alterar as configurações '
+                  'é NECESSÁRIO reiniciar o aplicativo',
                   style: TextStyle(
-                    color: Colors.red,
+                    color: Colors.warningPrimaryColor,
                     fontSize: 18,
                   ),
                 )
@@ -313,11 +313,6 @@ class _LoginState extends State<LoginPage> {
           ],
         ),
         actions: [
-          Button(
-              child: const Text('Voltar'),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
           FilledButton(
               child: const Text('Salvar'),
               onPressed: () {
@@ -329,7 +324,12 @@ class _LoginState extends State<LoginPage> {
                       regionController.text);
                   Navigator.pop(context);
                 });
-              })
+              }),
+          Button(
+              child: const Text('Voltar'),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
         ],
       ),
     );
