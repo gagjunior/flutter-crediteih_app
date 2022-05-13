@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:crediteih_app/exceptions/user_exception.dart';
 import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 import 'package:crediteih_app/services/users_service.dart';
@@ -17,6 +18,7 @@ class NewUserPage extends StatefulWidget {
 class _NewUserPageState extends State<NewUserPage> {
   bool isReadOnly = false;
   bool isObscureText = true;
+  static const SizedBox spacer = SizedBox(height: 16);
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -47,7 +49,7 @@ class _NewUserPageState extends State<NewUserPage> {
             'Cadastre um novo usuário'),
       ),
       children: [
-        const SizedBox(height: 10),
+        spacer,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,7 +75,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 },
               ),
             ),
-            const SizedBox(height: 10),
+            spacer,
             SizedBox(
               width: 600,
               child: TextFormBox(
@@ -83,8 +85,6 @@ class _NewUserPageState extends State<NewUserPage> {
                 keyboardType: TextInputType.text,
                 controller: nameController,
                 textInputAction: TextInputAction.next,
-                obscureText: isObscureText,
-                obscuringCharacter: '◉',
                 autovalidateMode: AutovalidateMode.always,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
@@ -94,7 +94,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 },
               ),
             ),
-            const SizedBox(height: 10),
+            spacer,
             SizedBox(
               width: 600,
               child: TextFormBox(
@@ -120,7 +120,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            spacer,
             SizedBox(
               width: 600,
               child: TextFormBox(
@@ -152,19 +152,39 @@ class _NewUserPageState extends State<NewUserPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            spacer,
             SizedBox(
               width: 600,
               child: TextFormBox(
-                header: 'Confirme a Senha',
+                header: 'Confirmar senha',
                 readOnly: isReadOnly,
                 maxLength: 12,
                 keyboardType: TextInputType.visiblePassword,
                 controller: confirmPasswordController,
                 textInputAction: TextInputAction.next,
+                obscureText: isObscureText,
+                obscuringCharacter: '◉',
+                autovalidateMode: AutovalidateMode.always,
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Confirme a senha';
+                  }
+                  return null;
+                },
+                suffix: IconButton(
+                  icon: Icon(
+                    isObscureText ? FluentIcons.lock : FluentIcons.unlock,
+                    size: 18,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isObscureText = !isObscureText;
+                    });
+                  },
+                ),
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 20),
             SizedBox(
               width: 600,
               child: Row(
@@ -174,16 +194,28 @@ class _NewUserPageState extends State<NewUserPage> {
                     child: FilledButton(
                       child: const Text('Salvar'),
                       onPressed: () async {
-                        User newUser = User(
-                          email: emailController.text,
-                          name: nameController.text,
-                          password: passwordController.text,
-                          cpf: cpfController.text,
-                        );
                         try {
-                          await UserService.saveNewUser(newUser);
+                          _comparePassword(passwordController.text,
+                              confirmPasswordController.text);
+                          User newUser = User(
+                            email: emailController.text,
+                            name: nameController.text,
+                            password: passwordController.text,
+                            cpf: cpfController.text,
+                          );
+                          await UserService.saveNewUser(newUser).then((value) {
+                            setState(() {
+                              emailController.text = '';
+                              nameController.text = '';
+                              cpfController.text = '';
+                              passwordController.text = '';
+                              confirmPasswordController.text = '';
+                              _showDialog(
+                                  'Sucesso!', 'Usuário salvo com sucesso');
+                            });
+                          });
                         } on Exception catch (e) {
-                          _showErrorDialog('Erro ao Salvar', e.toString());
+                          _showDialog('Erro ao Salvar', e.toString());
                         }
                       },
                       style: const ButtonStyle(),
@@ -214,7 +246,7 @@ class _NewUserPageState extends State<NewUserPage> {
     );
   }
 
-  void _showErrorDialog(String title, String content) {
+  void _showDialog(String title, String content) {
     showDialog(
       context: context,
       builder: (_) => ContentDialog(
@@ -229,5 +261,11 @@ class _NewUserPageState extends State<NewUserPage> {
         ],
       ),
     );
+  }
+
+  void _comparePassword(String firstPassword, String secondPassword) {
+    if (firstPassword != secondPassword) {
+      throw PasswordUserException('Senhas não conferem');
+    }
   }
 }

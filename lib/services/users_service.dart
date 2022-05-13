@@ -1,5 +1,6 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
+import 'package:crediteih_app/exceptions/user_exception.dart';
 import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/services/config_service.dart';
 
@@ -9,8 +10,21 @@ class UserService {
   static final DynamoDB service = ConfigService.startService();
   static final Map getConfigs = ConfigService.getConfigs();
 
+  static void _validateFields(User user) {
+    if (user.email == '') {
+      throw EmailUserException('Email não pode ficar em branco');
+    }
+    if (user.name == '') {
+      throw NameUserException('Nome não pode ficar em branco');
+    }
+    if (user.password == '') {
+      throw PasswordUserException('Senha não pode ficar em branco');
+    }
+  }
+
   static Future<void> saveNewUser(User user) async {
-    String value = """
+    _validateFields(user);
+    String statement = """
       INSERT INTO $usersTableName VALUE
       {
         'email': '${user.email}',
@@ -33,7 +47,7 @@ class UserService {
       }
     """;
     await service
-        .executeStatement(statement: value)
+        .executeStatement(statement: statement)
         .onError<DuplicateItemException>((error, stackTrace) {
       if (error.code == 'DuplicateItemException') {
         throw Exception('Já existe usuário criado com o e-mail informado');
