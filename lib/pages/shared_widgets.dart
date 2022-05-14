@@ -2,6 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 
 Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
   return Padding(
+    padding: const EdgeInsets.all(8.0),
     child: Row(
       children: [
         Padding(
@@ -33,7 +34,6 @@ Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
         ),
       ],
     ),
-    padding: const EdgeInsets.all(8.0),
   );
 }
 

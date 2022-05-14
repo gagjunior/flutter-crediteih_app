@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
       ),
       content: NavigationBody(
         transitionBuilder: ((child, animation) =>
-            DrillInPageTransition(child: child, animation: animation)),
+            DrillInPageTransition(animation: animation, child: child)),
         index: _currentPage,
         children: const <Widget>[
           InicialPage(),

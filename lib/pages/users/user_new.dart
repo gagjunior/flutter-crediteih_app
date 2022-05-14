@@ -192,7 +192,6 @@ class _NewUserPageState extends State<NewUserPage> {
                 children: [
                   Expanded(
                     child: FilledButton(
-                      child: const Text('Salvar'),
                       onPressed: () async {
                         try {
                           _comparePassword(passwordController.text,
@@ -219,12 +218,12 @@ class _NewUserPageState extends State<NewUserPage> {
                         }
                       },
                       style: const ButtonStyle(),
+                      child: const Text('Salvar'),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: FilledButton(
-                      child: const Text('Cancelar'),
                       onPressed: () {},
                       style: ButtonStyle(
                         backgroundColor: ButtonState.resolveWith((states) {
@@ -235,6 +234,7 @@ class _NewUserPageState extends State<NewUserPage> {
                           }
                         }),
                       ),
+                      child: const Text('Cancelar'),
                     ),
                   )
                 ],

@@ -16,10 +16,10 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  LoginState createState() => LoginState();
 }
 
-class _LoginState extends State<LoginPage> {
+class LoginState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController clientIdController = TextEditingController();
@@ -140,23 +140,23 @@ class _LoginState extends State<LoginPage> {
                 ),
               ),
               FilledButton(
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
-                ),
                 onPressed: () async {
                   try {
                     _showProgress(context, 'Login', 'Conectando...');
                     await UserService.isAuthenticated(
                             emailController.text, passwordController.text)
-                        .then((value) => Navigator.of(context).pop());
-                    Navigator.push(
-                        context,
-                        FluentPageRoute(
-                          builder: (context) => const HomePage(
-                            title: 'Crediteih App',
-                          ),
-                        ));
+                        .then((value) {
+                      if (value) {
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            FluentPageRoute(
+                              builder: (context) => const HomePage(
+                                title: 'Crediteih App',
+                              ),
+                            ));
+                      }
+                    });
                   } on LoginUserException catch (e) {
                     Navigator.of(context).pop();
                     _showDialogLogin('Erro de Usuário', e.toString());
@@ -178,6 +178,10 @@ class _LoginState extends State<LoginPage> {
                       return const Color.fromARGB(255, 10, 85, 247);
                     }
                   }),
+                ),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
               const SizedBox(
