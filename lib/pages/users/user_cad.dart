@@ -73,7 +73,8 @@ class _UserCadPageState extends State<UserCadPage> {
             ],
           ),
         ),
-        spacer, // Separador
+        spacer,
+        // Separador
       ],
     );
   }
