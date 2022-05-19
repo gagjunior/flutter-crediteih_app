@@ -83,10 +83,10 @@ class UserService {
     return true;
   }
 
-  static Future<List<Map<String, AttributeValue>>?> getAllUsers() async {
+  static Future<Map<int, Map<String, AttributeValue>>?> getAllUsers() async {
     const String statement = 'SELECT * FROM $usersTableName';
     final response = await service.executeStatement(statement: statement);
-    var users = response.items;
+    Map<int, Map<String, AttributeValue>>? users = response.items?.asMap();
     return users;
   }
 }
