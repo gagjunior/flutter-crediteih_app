@@ -18,16 +18,6 @@ class _UserCadPageState extends State<UserCadPage> {
   Map<int, Map<String, AttributeValue>>? allUsers;
 
   @override
-  void initState() {
-    super.initState();
-    UserService.getAllUsers().then((value) {
-      setState(() {
-        allUsers = value;
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ScaffoldPage(
       padding: const EdgeInsets.all(6),
@@ -61,6 +51,32 @@ class _UserCadPageState extends State<UserCadPage> {
               primaryItems: [
                 CommandBarBuilderItem(
                   builder: (context, mode, w) => Tooltip(
+                    message: 'Listar todos os usuários',
+                    child: w,
+                  ),
+                  wrappedItem: CommandBarButton(
+                    icon: const Icon(FluentIcons.list),
+                    label: const Text(
+                      'Listar todos',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () async {
+                      _showProgress(context, 'Carregando', 'Buscando usuários');
+                      await UserService.getAllUsers().then((value) {
+                        Navigator.of(context).pop();
+                        setState(() {
+                          allUsers = value;
+                        });
+                      });
+                    },
+                  ),
+                ),
+                const CommandBarSeparator(),
+                CommandBarBuilderItem(
+                  builder: (context, mode, w) => Tooltip(
                     message: 'Inserir novo usuário',
                     child: w,
                   ),
@@ -76,7 +92,6 @@ class _UserCadPageState extends State<UserCadPage> {
                     },
                   ),
                 ),
-                const CommandBarSeparator(),
               ],
             ),
           ),
@@ -86,11 +101,48 @@ class _UserCadPageState extends State<UserCadPage> {
       ),
       content: ListView.builder(
         shrinkWrap: true,
-        itemCount: allUsers?.length,
+        itemCount: allUsers?.length ?? 0,
         itemBuilder: (context, index) {
           final title = allUsers?[index]?['name']?.s;
           final subtitle = allUsers?[index]?['email']?.s;
           return TappableListTile(
+            leading: DropDownButton(
+              title: const Icon(
+                FluentIcons.more,
+                color: Colors.white,
+              ),
+              disabled: false,
+              items: [
+                MenuFlyoutItem(
+                  text: const Text('Send'),
+                  leading: const Icon(FluentIcons.send),
+                  onPressed: () => debugPrint('Send'),
+                ),
+                MenuFlyoutItem(
+                  text: const Text('Reply'),
+                  leading: const Icon(FluentIcons.mail_reply),
+                  onPressed: () => debugPrint('Reply'),
+                ),
+                MenuFlyoutItem(
+                  text: const Text('Reply all'),
+                  leading: const Icon(FluentIcons.mail_reply_all),
+                  onPressed: () => debugPrint('Reply all'),
+                ),
+              ],
+              buttonStyle: ButtonStyle(
+                backgroundColor: ButtonState.resolveWith((states) {
+                  if (states.isNone) {
+                    return Colors.blue;
+                  }
+                  if (states.isHovering) {
+                    return Colors.grey;
+                  }
+                  return null;
+                }),
+              ),
+            ),
+            title: Text(title ?? ''),
+            subtitle: Text(subtitle ?? ''),
             onTap: (() {
               showDialog(
                   context: context,
@@ -106,9 +158,6 @@ class _UserCadPageState extends State<UserCadPage> {
                         ],
                       ));
             }),
-            leading: const CircleAvatar(),
-            title: Text(title ?? ''),
-            subtitle: Text(subtitle ?? ''),
           );
         },
       ),
