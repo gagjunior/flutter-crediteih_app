@@ -1,4 +1,5 @@
 import 'package:crediteih_app/pages/customers/customer_cad.dart';
+import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/pages/users/user_cad.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
@@ -14,6 +15,24 @@ class RecordsMenuPage extends StatelessWidget {
     return ScaffoldPage.scrollable(
       padding: const EdgeInsets.all(6),
       header: PageHeader(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            icon: const Icon(
+              FluentIcons.back,
+              size: 20,
+              color: Color.fromARGB(255, 10, 34, 255),
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  FluentPageRoute(
+                      builder: (context) => const HomePage(
+                            title: 'Creditei App',
+                          )));
+            },
+          ),
+        ),
         title: titlePageHeader(FluentIcons.add_multiple, 'Cadastros',
             'Lista de cadastros disponiveis no sistema'),
       ),
