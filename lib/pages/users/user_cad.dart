@@ -108,25 +108,20 @@ class _UserCadPageState extends State<UserCadPage> {
           return TappableListTile(
             leading: DropDownButton(
               title: const Icon(
-                FluentIcons.more,
+                FluentIcons.more_vertical,
                 color: Colors.white,
               ),
-              disabled: false,
               items: [
                 MenuFlyoutItem(
-                  text: const Text('Send'),
-                  leading: const Icon(FluentIcons.send),
+                  selected: true,
+                  text: const Text('Editar'),
+                  leading: Icon(FluentIcons.edit, color: Colors.green.dark),
                   onPressed: () => debugPrint('Send'),
                 ),
                 MenuFlyoutItem(
-                  text: const Text('Reply'),
-                  leading: const Icon(FluentIcons.mail_reply),
+                  text: const Text('Excluir'),
+                  leading: Icon(FluentIcons.delete, color: Colors.red.dark),
                   onPressed: () => debugPrint('Reply'),
-                ),
-                MenuFlyoutItem(
-                  text: const Text('Reply all'),
-                  leading: const Icon(FluentIcons.mail_reply_all),
-                  onPressed: () => debugPrint('Reply all'),
                 ),
               ],
               buttonStyle: ButtonStyle(
