@@ -18,6 +18,7 @@ Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
           children: [
             Text(
               titulo,
+              softWrap: true,
               style: const TextStyle(
                 fontSize: 26,
                 color: Color.fromARGB(255, 10, 34, 255),
@@ -25,6 +26,7 @@ Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
             ),
             Text(
               subtitulo,
+              softWrap: true,
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.normal,
