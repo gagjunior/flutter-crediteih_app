@@ -1,5 +1,6 @@
 //Imports de terceiros
 import 'package:crediteih_app/exceptions/config_exception.dart';
+import 'package:crediteih_app/pages/users/user_cad.dart';
 import 'package:crediteih_app/services/config_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
@@ -8,9 +9,10 @@ import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
 import 'package:crediteih_app/services/users_service.dart';
 
-//const String codCli = 'CTBA0001';
-
 final Map getConfigs = ConfigService.getConfigs();
+const SizedBox vSpacer = SizedBox(
+  height: 20,
+);
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -38,7 +40,7 @@ class LoginState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 60.0),
+                padding: const EdgeInsets.only(top: 20),
                 child: Center(
                   child: SizedBox(
                       width: 200,
@@ -46,6 +48,18 @@ class LoginState extends State<LoginPage> {
                       child: Image.asset('images/logo_app.png')),
                 ),
               ),
+              spacer,
+              Text(
+                'Bem vindo!',
+                textAlign: TextAlign.center,
+                softWrap: true,
+                style: TextStyle(
+                  color: Colors.blue,
+                  letterSpacing: 3,
+                  fontSize: 40,
+                ),
+              ),
+              spacer,
               SizedBox(
                 width: 500,
                 child: Padding(
