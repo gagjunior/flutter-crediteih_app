@@ -1,7 +1,4 @@
-import 'package:crediteih_app/pages/menus/records_page.dart';
-import 'package:crediteih_app/pages/menus/reports_page.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
-import 'package:crediteih_app/pages/users/user_cad.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as material;
 
@@ -27,19 +24,40 @@ class _InicialPageState extends State<InicialPage> {
         mainAxisSpacing: 10,
         crossAxisCount: 3,
         children: <Widget>[
-          material.Card(
-            margin: const EdgeInsets.all(8),
-            color: material.Colors.blue[100],
-            child: const Text("He'd have you all unravel at the"),
+          Card(
+            padding: const EdgeInsets.all(8),
+            backgroundColor: material.Colors.blue[100],
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        color: material.Colors.blue[800],
+                        child: const Text(
+                          'Cadastro de Usuários',
+                          textAlign: TextAlign.center,
+                          textDirection: TextDirection.ltr,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
-          material.Card(
-            margin: const EdgeInsets.all(8),
-            color: material.Colors.blue[200],
+          Card(
+            padding: const EdgeInsets.all(8),
+            backgroundColor: material.Colors.blue[200],
             child: const Text('Heed not the rabble'),
           ),
-          material.Card(
-            margin: const EdgeInsets.all(8),
-            color: material.Colors.blue[300],
+          Card(
+            padding: const EdgeInsets.all(8),
+            backgroundColor: material.Colors.blue[300],
             child: const Text('Sound of screams but the'),
           ),
         ],

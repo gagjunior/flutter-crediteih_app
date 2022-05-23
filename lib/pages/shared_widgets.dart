@@ -46,7 +46,10 @@ Widget buttonMenuPage(String titulo, String subtitulo, Widget page,
       style: ButtonStyle(
           elevation: ButtonState.all(4),
           backgroundColor: ButtonState.resolveWith((states) {
-            if (states.isNone) return material.Colors.blue[50];
+            if (states.isNone) {
+              return material.Colors.blue[50];
+            }
+            return null;
           })),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
