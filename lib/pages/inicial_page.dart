@@ -1,7 +1,9 @@
 import 'package:crediteih_app/pages/menus/records_page.dart';
+import 'package:crediteih_app/pages/menus/reports_page.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 import 'package:crediteih_app/pages/users/user_cad.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart' as material;
 
 class InicialPage extends StatefulWidget {
   const InicialPage({Key? key}) : super(key: key);
@@ -18,130 +20,29 @@ class _InicialPageState extends State<InicialPage> {
         title: titlePageHeader(
             FluentIcons.home_solid, 'Menu Inicial', 'Crediteih App'),
       ),
-      content: Container(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-        child: Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: [
-            Card(
-              child: InfoLabel(
-                label: 'Cadastros',
-                labelStyle: TextStyle(
-                  color: Colors.blue.darker,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    spacer,
-                    const Text(
-                      'Acesse todos os cadastros do aplicativo',
-                      textAlign: TextAlign.left,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    const Text(
-                      '- Cadastros de usuários',
-                      textAlign: TextAlign.start,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    const Text('- Cadastro de clientes'),
-                    const Text('... e muito mais!'),
-                    spacer,
-                    SizedBox(
-                      width: 300,
-                      child: FilledButton(
-                        child: const Text('Acessar'),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            FluentPageRoute(
-                                builder: (context) => const RecordsMenuPage()),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              child: InfoLabel(
-                label: 'Cadastros',
-                labelStyle: TextStyle(
-                  color: Colors.blue.darker,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Acesse todos os cadastros do aplicativo',
-                      textAlign: TextAlign.left,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    const Text(
-                      '- Cadastros de usuários',
-                      textAlign: TextAlign.start,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    const Text('- Cadastro de clientes'),
-                    const Text('... e muito mais!'),
-                    spacer,
-                    SizedBox(
-                      width: 200,
-                      child: FilledButton(
-                        child: const Text('Acessar'),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              child: InfoLabel(
-                label: 'Cadastros',
-                labelStyle: TextStyle(
-                  color: Colors.blue.darker,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    spacer,
-                    const Text(
-                      'Acesse todos os cadastros do aplicativo',
-                      textAlign: TextAlign.left,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    const Text(
-                      '- Cadastros de usuários',
-                      textAlign: TextAlign.start,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    const Text('- Cadastro de clientes'),
-                    const Text('... e muito mais!'),
-                    spacer,
-                    SizedBox(
-                      width: 200,
-                      child: FilledButton(
-                        child: const Text('Acessar'),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+      content: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(20),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 3,
+        children: <Widget>[
+          material.Card(
+            margin: const EdgeInsets.all(8),
+            color: material.Colors.blue[100],
+            child: const Text("He'd have you all unravel at the"),
+          ),
+          material.Card(
+            margin: const EdgeInsets.all(8),
+            color: material.Colors.blue[200],
+            child: const Text('Heed not the rabble'),
+          ),
+          material.Card(
+            margin: const EdgeInsets.all(8),
+            color: material.Colors.blue[300],
+            child: const Text('Sound of screams but the'),
+          ),
+        ],
       ),
     );
   }

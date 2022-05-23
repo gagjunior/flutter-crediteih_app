@@ -1,9 +1,11 @@
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart' as material;
+
 import 'package:crediteih_app/pages/customers/customer_cad.dart';
 import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/pages/users/user_cad.dart';
-import 'package:fluent_ui/fluent_ui.dart';
 
-import '../shared_widgets.dart';
+import 'package:crediteih_app/pages/shared_widgets.dart';
 
 const Widget separator = SizedBox(height: 10);
 

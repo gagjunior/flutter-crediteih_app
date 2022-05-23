@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart' as material;
 
 Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
   return Padding(
@@ -43,8 +44,10 @@ Widget buttonMenuPage(String titulo, String subtitulo, Widget page,
     BuildContext context, IconData icon) {
   return Button(
       style: ButtonStyle(
-        elevation: ButtonState.all(4),
-      ),
+          elevation: ButtonState.all(4),
+          backgroundColor: ButtonState.resolveWith((states) {
+            if (states.isNone) return material.Colors.blue[50];
+          })),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
