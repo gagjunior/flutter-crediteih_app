@@ -1,6 +1,7 @@
+import 'package:crediteih_app/pages/menus/records_page.dart';
+import 'package:crediteih_app/pages/menus/reports_page.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/material.dart' as material;
 
 class InicialPage extends StatefulWidget {
   const InicialPage({Key? key}) : super(key: key);
@@ -28,72 +29,32 @@ class _InicialPageState extends State<InicialPage> {
             spacing: 10,
             runSpacing: 10,
             children: <Widget>[
-              SizedBox(
-                width: 300,
-                height: 250,
-                child: Button(
-                  style: ButtonStyle(
-                      backgroundColor: ButtonState.resolveWith((states) {
-                    if (states.isNone) {
-                      return material.Colors.teal[100];
-                    }
-                    if (states.isHovering) {
-                      return material.Colors.blue[100];
-                    }
-                    return null;
-                  })),
-                  onPressed: () {},
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      titleCardInitialPage(
-                          'Cadastro de Usuários', FluentIcons.add_multiple),
-                      const SizedBox(height: 20),
-                      rowCardInitialPage(
-                          '- Gerencie todos cadastros do aplicativo'),
-                      rowCardInitialPage('- Cadastro de usuários'),
-                      rowCardInitialPage('- Cadastro de clientes'),
-                      rowCardInitialPage('... e muito mais!'),
-                      const SizedBox(height: 20),
-                      rowCardInitialPage('Clique e acesse o menu de cadastros')
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                height: 250,
-                child: Button(
-                  style: ButtonStyle(
-                      backgroundColor: ButtonState.resolveWith((states) {
-                    if (states.isNone) {
-                      return material.Colors.teal[200];
-                    }
-                    if (states.isHovering) {
-                      return material.Colors.blue[200];
-                    }
-                    return null;
-                  })),
-                  onPressed: () {},
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      titleCardInitialPage(
-                          'Relatórios', FluentIcons.report_document),
-                      const SizedBox(height: 20),
-                      rowCardInitialPage(
-                          '- Acesse todos os relatórios do aplicativo'),
-                      //rowCardInitialPage('- Cadastro de usuários'),
-                      //rowCardInitialPage('- Cadastro de clientes'),
-                      rowCardInitialPage('... e muito mais!'),
-                      const SizedBox(height: 20),
-                      rowCardInitialPage('Clique e acesse o menu de relatórios')
-                    ],
-                  ),
-                ),
-              ),
+              cardInitialPage(() {
+                Navigator.push(context,
+                    FluentPageRoute(builder: (_) => const RecordsMenuPage()));
+              }, [
+                titleCardInitialPage('Cadastros', FluentIcons.add_multiple),
+                const SizedBox(height: 20),
+                rowCardInitialPage('- Gerencie todos cadastros do aplicativo'),
+                rowCardInitialPage('- Cadastro de usuários'),
+                rowCardInitialPage('- Cadastro de clientes'),
+                rowCardInitialPage('... e muito mais!'),
+                const SizedBox(height: 20),
+                rowCardInitialPage('Clique e acesse o menu de cadastros')
+              ], 100, 100),
+              cardInitialPage(() {
+                Navigator.push(context,
+                    FluentPageRoute(builder: (_) => const ReportsMenuPage()));
+              }, [
+                titleCardInitialPage('Relatórios', FluentIcons.report_document),
+                const SizedBox(height: 20),
+                rowCardInitialPage(
+                    '- Acesse todos os relatórios do aplicativo'),
+                rowCardInitialPage('... e muito mais!'),
+                const SizedBox(height: 20),
+                rowCardInitialPage('Clique e acesse o menu de relatórios')
+              ], 200, 200),
+              cardInitialPage(() {}, [], 300, 300)
             ],
           ),
         ),

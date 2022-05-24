@@ -92,7 +92,6 @@ Widget titleCardInitialPage(String title, IconData icon) {
         padding: const EdgeInsets.all(8.0),
         child: Icon(
           icon,
-          color: material.Colors.blue[900],
           size: 20,
         ),
       ),
@@ -101,8 +100,7 @@ Widget titleCardInitialPage(String title, IconData icon) {
           title,
           softWrap: true,
           textAlign: TextAlign.left,
-          style: TextStyle(
-            color: material.Colors.blue[900],
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -120,6 +118,34 @@ Widget rowCardInitialPage(String content) {
       softWrap: true,
       textAlign: TextAlign.left,
       style: const TextStyle(fontSize: 14),
+    ),
+  );
+}
+
+Widget cardInitialPage(void Function()? onPressed, List<Widget> contents,
+    int backgroundDensit, int hoverDensit) {
+  return MouseRegion(
+    cursor: SystemMouseCursors.click,
+    child: SizedBox(
+      width: 300,
+      height: 250,
+      child: Button(
+        style: ButtonStyle(backgroundColor: ButtonState.resolveWith((states) {
+          if (states.isNone) {
+            return material.Colors.teal[backgroundDensit];
+          }
+          if (states.isHovering) {
+            return material.Colors.blue[hoverDensit];
+          }
+          return null;
+        })),
+        onPressed: onPressed,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: contents,
+        ),
+      ),
     ),
   );
 }
