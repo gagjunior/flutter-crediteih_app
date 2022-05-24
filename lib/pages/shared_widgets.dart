@@ -84,3 +84,42 @@ Widget buttonMenuPage(String titulo, String subtitulo, Widget page,
         Navigator.push(context, FluentPageRoute(builder: (context) => page));
       });
 }
+
+Widget titleCardInitialPage(String title, IconData icon) {
+  return Row(
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(
+          icon,
+          color: material.Colors.blue[900],
+          size: 20,
+        ),
+      ),
+      Expanded(
+        child: Text(
+          title,
+          softWrap: true,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            color: material.Colors.blue[900],
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      )
+    ],
+  );
+}
+
+Widget rowCardInitialPage(String content) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+    child: Text(
+      content,
+      softWrap: true,
+      textAlign: TextAlign.left,
+      style: const TextStyle(fontSize: 14),
+    ),
+  );
+}

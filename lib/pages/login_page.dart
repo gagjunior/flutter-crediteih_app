@@ -67,7 +67,6 @@ class LoginState extends State<LoginPage> {
                   child: TextFormBox(
                     controller: emailController,
                     header: 'Email',
-                    placeholder: 'Digite seu e-mail...',
                     autovalidateMode: AutovalidateMode.always,
                     validator: (text) {
                       if (text == null || text.isEmpty) {
@@ -107,7 +106,6 @@ class LoginState extends State<LoginPage> {
                   child: TextFormBox(
                     controller: passwordController,
                     header: 'Senha',
-                    placeholder: 'Digite sua senha...',
                     autovalidateMode: AutovalidateMode.always,
                     validator: (text) {
                       if (text == null || text.isEmpty) {
