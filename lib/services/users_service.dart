@@ -112,4 +112,8 @@ class UserService {
       }
     });
   }
+
+  static Map<String, dynamic> getLoggedUser() {
+    return _boxLoggedUser.get('loggedUser');
+  }
 }

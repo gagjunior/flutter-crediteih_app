@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:crediteih_app/pages/menus/records_page.dart';
 import 'package:crediteih_app/pages/menus/reports_page.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
+import 'package:crediteih_app/services/users_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 class InicialPage extends StatefulWidget {
@@ -11,6 +14,19 @@ class InicialPage extends StatefulWidget {
 }
 
 class _InicialPageState extends State<InicialPage> {
+  Map<String, dynamic> loggedUser = UserService.getLoggedUser();
+  String name = '';
+  String email = '';
+  String loggedIn = '';
+
+  @override
+  void initState() {
+    super.initState();
+    name = loggedUser['name'].toString();
+    email = loggedUser['email'].toString();
+    loggedIn = loggedUser['loggedIn'].toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
@@ -19,6 +35,9 @@ class _InicialPageState extends State<InicialPage> {
             FluentIcons.home_solid, 'Menu Inicial', 'Crediteih App'),
       ),
       children: [
+        Text(name),
+        Text(email),
+        Text(loggedIn),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Wrap(
