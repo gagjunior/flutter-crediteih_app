@@ -25,12 +25,8 @@ class RecordsMenuPage extends StatelessWidget {
               color: Color.fromARGB(255, 10, 34, 255),
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  FluentPageRoute(
-                      builder: (context) => const HomePage(
-                            title: 'Creditei App',
-                          )));
+              Navigator.push(context,
+                  FluentPageRoute(builder: (context) => const HomePage()));
             },
           ),
         ),

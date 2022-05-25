@@ -8,6 +8,7 @@ void main() async {
   await SystemTheme.accentColor.load();
   await Hive.initFlutter();
   await Hive.openBox('settings');
+  await Hive.openBox('loggedUser');
   runApp(const CrediteihApp());
 }
 

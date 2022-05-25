@@ -1,4 +1,10 @@
+// Imports de bibliotecas externas
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+
+// Imports de bibliotecas internas
 import 'package:crediteih_app/exceptions/login_exception.dart';
 import 'package:crediteih_app/exceptions/user_exception.dart';
 import 'package:crediteih_app/models/user_model.dart';
@@ -9,6 +15,7 @@ const String usersTableName = 'Crediteih_Users';
 class UserService {
   static final DynamoDB service = ConfigService.startService();
   static final Map getConfigs = ConfigService.getConfigs();
+  static final Box _boxLoggedUser = Hive.box('loggedUser');
 
   static void _validateFields(User user) {
     if (user.email == '') {
@@ -69,17 +76,22 @@ class UserService {
       'email': AttributeValue(s: email),
       'clientId': AttributeValue(s: getConfigs['clientId'])
     }, tableName: usersTableName);
-    String? user = response.item?['email']?.s.toString();
-    String? userPassword = response.item?['password']?.s.toString();
+    User user = User(
+        email: response.item?['email']?.s.toString(),
+        name: response.item?['name']?.s.toString(),
+        password: response.item?['password']?.s.toString());
 
-    if (user == null || user == '') {
+    if (user.email == null || user.email == '') {
       throw LoginUserException(
           'Usuário não encontrado\nVerifique com o administrador do sistema');
     }
 
-    if (password != userPassword) {
+    if (password != user.password) {
       throw LoginPasswordException('Senha inválida');
     }
+
+    _saveLoggedUser(user);
+
     return true;
   }
 
@@ -88,5 +100,17 @@ class UserService {
     final response = await service.executeStatement(statement: statement);
     Map<int, Map<String, AttributeValue>>? users = response.items?.asMap();
     return users;
+  }
+
+  static void _saveLoggedUser(User user) async {
+    DateTime dateTime = DateTime.now();
+    await _boxLoggedUser.putAll({
+      'loggedUser': {
+        'email': user.email,
+        'name': user.name,
+        'password': user.password,
+        'loggedIn': DateFormat("'Login em:' dd/MM/yyyy hh:mm").format(dateTime)
+      }
+    });
   }
 }

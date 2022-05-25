@@ -161,12 +161,11 @@ class LoginState extends State<LoginPage> {
                       if (value) {
                         Navigator.of(context).pop();
                         Navigator.push(
-                            context,
-                            FluentPageRoute(
-                              builder: (context) => const HomePage(
-                                title: 'Crediteih App',
-                              ),
-                            ));
+                          context,
+                          FluentPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
                       }
                     });
                   } on LoginUserException catch (e) {

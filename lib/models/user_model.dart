@@ -1,7 +1,7 @@
 class User {
-  final String email;
-  final String name;
-  final String password;
+  final String? email;
+  final String? name;
+  final String? password;
   late final String? cpf;
   late final Map<String, dynamic>? address;
 

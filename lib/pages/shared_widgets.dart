@@ -1,6 +1,20 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as material;
 
+Widget leadingPageHeader(void Function()? onPressed) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: IconButton(
+      icon: const Icon(
+        FluentIcons.back,
+        size: 20,
+        color: Color.fromARGB(255, 10, 34, 255),
+      ),
+      onPressed: onPressed,
+    ),
+  );
+}
+
 Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -132,10 +146,10 @@ Widget cardInitialPage(void Function()? onPressed, List<Widget> contents,
       child: Button(
         style: ButtonStyle(backgroundColor: ButtonState.resolveWith((states) {
           if (states.isNone) {
-            return material.Colors.teal[backgroundDensit];
+            return material.Colors.blue[backgroundDensit];
           }
           if (states.isHovering) {
-            return material.Colors.blue[hoverDensit];
+            return material.Colors.teal[hoverDensit];
           }
           return null;
         })),
