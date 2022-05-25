@@ -1,7 +1,5 @@
-import 'package:crediteih_app/pages/customers/customer_cad.dart';
 import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
-import 'package:crediteih_app/pages/users/user_cad.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 const Widget separator = SizedBox(height: 10);
@@ -26,7 +24,7 @@ class _ReportsMenuPageState extends State<ReportsMenuPage> {
         title: titlePageHeader(FluentIcons.report_document, 'Relatórios',
             'Lista de relatórios disponiveis no sistema'),
       ),
-      children: [],
+      children: const [],
     );
   }
 }

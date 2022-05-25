@@ -1,7 +1,6 @@
 // Imports de bibliotecas externas
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 
 // Imports de bibliotecas internas
