@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:crediteih_app/pages/menus/records_page.dart';
 import 'package:crediteih_app/pages/menus/reports_page.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
@@ -35,9 +33,20 @@ class _InicialPageState extends State<InicialPage> {
             FluentIcons.home_solid, 'Menu Inicial', 'Crediteih App'),
       ),
       children: [
-        Text(name),
-        Text(email),
-        Text(loggedIn),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            'Bem vindo $name!',
+            style: const TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text('Email: $email - $loggedIn'),
+        ),
+        const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Wrap(
