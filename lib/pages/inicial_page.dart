@@ -44,7 +44,7 @@ class _InicialPageState extends State<InicialPage> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text('Email: $email - $loggedIn'),
+          child: Text('Email: $email'),
         ),
         const SizedBox(height: 20),
         Padding(
