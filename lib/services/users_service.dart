@@ -97,6 +97,7 @@ class UserService {
   static Future<Map<int, Map<String, AttributeValue>>?> getAllUsers() async {
     const String statement = 'SELECT * FROM $usersTableName';
     final response = await service.executeStatement(statement: statement);
+    response.items?.sort(((a, b) => a['email']!.s!.compareTo(b['email']!.s!)));
     Map<int, Map<String, AttributeValue>>? users = response.items?.asMap();
     return users;
   }
