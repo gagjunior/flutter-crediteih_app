@@ -105,6 +105,7 @@ class _UserCadPageState extends State<UserCadPage> {
         itemBuilder: (context, index) {
           final title = allUsers?[index]?['name']?.s;
           final subtitle = allUsers?[index]?['email']?.s;
+          var user = allUsers?[index];
           return TappableListTile(
             leading: DropDownButton(
               title: const Icon(
@@ -138,21 +139,7 @@ class _UserCadPageState extends State<UserCadPage> {
             ),
             title: Text(title ?? ''),
             subtitle: Text(subtitle ?? ''),
-            onTap: (() {
-              showDialog(
-                  context: context,
-                  builder: (_) => ContentDialog(
-                        title: Text('Usuario: ${title ?? ''}'),
-                        content: const Text('Teste'),
-                        actions: [
-                          FilledButton(
-                              child: const Text('Voltar'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              })
-                        ],
-                      ));
-            }),
+            onTap: (() {}),
           );
         },
       ),
@@ -174,6 +161,28 @@ class _UserCadPageState extends State<UserCadPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showUserDetail(BuildContext context, Map<String, AttributeValue> user) {
+    var name = user['name']?.s;
+    showDialog(
+      context: context,
+      builder: (_) => ContentDialog(
+        title: Text(name ?? ''),
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [],
+        ),
+        actions: [
+          FilledButton(
+              child: const Text('Voltar'),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
       ),
     );
   }
