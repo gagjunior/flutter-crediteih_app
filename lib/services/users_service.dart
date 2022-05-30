@@ -28,6 +28,7 @@ class UserService {
     }
   }
 
+  // Salvar novo usuário na base de dados
   static Future<void> saveNewUser(User user) async {
     _validateFields(user);
     String statement = """
@@ -94,6 +95,7 @@ class UserService {
     return true;
   }
 
+  // Recupera todos usuários do banco de dados
   static Future<Map<int, Map<String, AttributeValue>>?> getAllUsers() async {
     const String statement = 'SELECT * FROM $usersTableName';
     final response = await service.executeStatement(statement: statement);
@@ -102,6 +104,7 @@ class UserService {
     return users;
   }
 
+  // Salva localmente usuário logado no sistema
   static void _saveLoggedUser(User user) async {
     DateTime dateTime = DateTime.now();
     await _boxLoggedUser.putAll({
@@ -114,6 +117,7 @@ class UserService {
     });
   }
 
+  // Recupera usuário logado no sistema
   static Map<String, dynamic> getLoggedUser() {
     return _boxLoggedUser.get('loggedUser');
   }
