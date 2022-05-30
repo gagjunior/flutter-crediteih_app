@@ -1,9 +1,9 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
-import 'package:crediteih_app/services/users_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 import 'package:crediteih_app/pages/users/user_new.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
+import 'package:crediteih_app/services/users_service.dart';
 
 const Widget spacer = SizedBox(height: 10.0);
 
@@ -139,7 +139,9 @@ class _UserCadPageState extends State<UserCadPage> {
             ),
             title: Text(title ?? ''),
             subtitle: Text(subtitle ?? ''),
-            onTap: (() {}),
+            onTap: (() {
+              _showUserDetail(context, user);
+            }),
           );
         },
       ),
@@ -165,16 +167,41 @@ class _UserCadPageState extends State<UserCadPage> {
     );
   }
 
-  void _showUserDetail(BuildContext context, Map<String, AttributeValue> user) {
-    var name = user['name']?.s;
+  void _showUserDetail(
+      BuildContext context, Map<String, AttributeValue>? user) {
+    String? name = user?['name']?.s;
+    String? email = user?['email']?.s;
+    String? cpf = user?['cpf']?.s;
     showDialog(
       context: context,
       builder: (_) => ContentDialog(
         title: Text(name ?? ''),
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [],
+        content: ScaffoldPage.scrollable(
+          children: [
+            InfoLabel(
+              label: 'Email',
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              child: SelectableText(
+                email ?? '',
+                selectionControls: fluentTextSelectionControls,
+                showCursor: true,
+              ),
+            ),
+            const SizedBox(height: 6),
+            InfoLabel(
+              label: 'CPF',
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              child: SelectableText(
+                cpf ?? '',
+                selectionControls: fluentTextSelectionControls,
+                showCursor: true,
+              ),
+            )
+          ],
         ),
         actions: [
           FilledButton(
