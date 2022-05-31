@@ -64,6 +64,13 @@ class UserService {
     });
   }
 
+  static Future<void> deleteUser(String? email) async {
+    await service.deleteItem(key: {
+      'email': AttributeValue(s: email),
+      'clientId': AttributeValue(s: getConfigs['clientId'])
+    }, tableName: usersTableName);
+  }
+
   // Metodo que faz a autenticação do usuário
   static Future<bool> isAuthenticated(String email, String password) async {
     if (email == '') {

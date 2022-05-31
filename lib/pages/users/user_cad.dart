@@ -85,10 +85,11 @@ class _UserCadPageState extends State<UserCadPage> {
                     label: const Text('Adicionar'),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          FluentPageRoute(
-                            builder: (context) => const NewUserPage(),
-                          ));
+                        context,
+                        FluentPageRoute(
+                          builder: (context) => const NewUserPage(),
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -107,40 +108,18 @@ class _UserCadPageState extends State<UserCadPage> {
           final subtitle = allUsers?[index]?['email']?.s;
           var user = allUsers?[index];
           return TappableListTile(
-            leading: DropDownButton(
-              title: const Icon(
-                FluentIcons.more_vertical,
-                color: Colors.white,
-              ),
-              items: [
-                MenuFlyoutItem(
-                  selected: true,
-                  text: const Text('Editar'),
-                  leading: Icon(FluentIcons.edit, color: Colors.green.dark),
-                  onPressed: () => debugPrint('Send'),
-                ),
-                MenuFlyoutItem(
-                  text: const Text('Excluir'),
-                  leading: Icon(FluentIcons.delete, color: Colors.red.dark),
-                  onPressed: () => debugPrint('Reply'),
-                ),
+            leading: Row(
+              children: [
+                Button(
+                    child: Text('Teste'),
+                    onPressed: () => _showUserDetailDialog(context, user)),
+                Button(child: Text('Teste'), onPressed: () {})
               ],
-              buttonStyle: ButtonStyle(
-                backgroundColor: ButtonState.resolveWith((states) {
-                  if (states.isNone) {
-                    return Colors.blue;
-                  }
-                  if (states.isHovering) {
-                    return Colors.grey;
-                  }
-                  return null;
-                }),
-              ),
             ),
             title: Text(title ?? ''),
             subtitle: Text(subtitle ?? ''),
             onTap: (() {
-              _showUserDetail(context, user);
+              _showUserDetailDialog(context, user);
             }),
           );
         },
@@ -167,7 +146,7 @@ class _UserCadPageState extends State<UserCadPage> {
     );
   }
 
-  void _showUserDetail(
+  void _showUserDetailDialog(
       BuildContext context, Map<String, AttributeValue>? user) {
     String? name = user?['name']?.s;
     String? email = user?['email']?.s;
