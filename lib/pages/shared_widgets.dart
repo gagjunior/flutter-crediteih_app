@@ -58,13 +58,17 @@ Widget buttonMenuPage(String titulo, String subtitulo, Widget page,
     BuildContext context, IconData icon) {
   return Button(
       style: ButtonStyle(
-          elevation: ButtonState.all(4),
-          backgroundColor: ButtonState.resolveWith((states) {
-            if (states.isNone) {
-              return material.Colors.blue[50];
-            }
-            return null;
-          })),
+        elevation: ButtonState.all(4),
+        backgroundColor: ButtonState.resolveWith((states) {
+          if (states.isNone) {
+            return material.Colors.blue[100];
+          }
+          if (states.isHovering) {
+            return material.Colors.lightBlue[100];
+          }
+          return null;
+        }),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
