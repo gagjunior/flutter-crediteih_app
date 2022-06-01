@@ -110,10 +110,40 @@ class _UserCadPageState extends State<UserCadPage> {
           return TappableListTile(
             leading: Row(
               children: [
-                Button(
-                    child: Text('Teste'),
-                    onPressed: () => _showUserDetailDialog(context, user)),
-                Button(child: Text('Teste'), onPressed: () {})
+                Chip(
+                  image: Icon(
+                    FluentIcons.edit,
+                    size: 14,
+                    color: Colors.green,
+                  ),
+                  text: Text(
+                    'Editar',
+                    style: TextStyle(
+                      color: Colors.green,
+                    ),
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    FluentPageRoute(
+                      builder: (context) => const NewUserPage(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Chip(
+                  image: Icon(
+                    FluentIcons.delete,
+                    size: 14,
+                    color: Colors.red,
+                  ),
+                  text: Text(
+                    'Excluir',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                  onPressed: () => _showDeleteDialog(context, user),
+                )
               ],
             ),
             title: Text(title ?? ''),
@@ -142,6 +172,70 @@ class _UserCadPageState extends State<UserCadPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(
+      BuildContext context, Map<String, AttributeValue>? user) {
+    final String? email = user?['email']?.s;
+    final String? name = user?['name']?.s;
+    showDialog(
+      context: context,
+      builder: (_) => ContentDialog(
+        title: Text(
+          'Excluir?',
+          style: TextStyle(
+            color: Colors.red.dark,
+          ),
+        ),
+        content: SizedBox(
+          height: 250,
+          child: ScaffoldPage.scrollable(
+            children: [
+              const Text('Tem certeza que deseja EXCLUIR o usuário?'),
+              const SizedBox(height: 10),
+              Text(
+                name ?? '',
+                style: const TextStyle(
+                  fontSize: 28,
+                ),
+              ),
+              Text(
+                email ?? '',
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          FilledButton(
+            onPressed: () async =>
+                await UserService.deleteUser(email).then((value) async {
+              await UserService.getAllUsers().then((value) {
+                Navigator.of(context).pop();
+                setState(() {
+                  allUsers = value;
+                });
+              });
+            }),
+            style: ButtonStyle(
+              backgroundColor: ButtonState.resolveWith((states) {
+                if (states.isNone) {
+                  return Colors.red.light;
+                }
+                return null;
+              }),
+            ),
+            child: const Text('Excluir'),
+          ),
+          FilledButton(
+            autofocus: true,
+            child: const Text('Cancelar'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -184,10 +278,11 @@ class _UserCadPageState extends State<UserCadPage> {
         ),
         actions: [
           FilledButton(
-              child: const Text('Voltar'),
-              onPressed: () {
-                Navigator.pop(context);
-              })
+            child: const Text('Voltar'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );
