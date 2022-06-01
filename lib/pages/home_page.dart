@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return NavigationView(
       pane: NavigationPane(
-        displayMode: PaneDisplayMode.compact,
+        displayMode: PaneDisplayMode.auto,
         selected: _currentPage,
         onChanged: (i) => setState(() {
           _currentPage = i;
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         header: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            'Menu - Crediteih',
+            'Menu Inicial',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color.fromARGB(255, 19, 52, 216),
