@@ -1,5 +1,7 @@
-import 'package:crediteih_app/pages/shared_widgets.dart';
+import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:crediteih_app/services/users_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:crediteih_app/pages/shared_widgets.dart';
 
 class CustomerCadPage extends StatefulWidget {
   const CustomerCadPage({Key? key}) : super(key: key);
@@ -10,6 +12,8 @@ class CustomerCadPage extends StatefulWidget {
 
 class _CustomerCadPageState extends State<CustomerCadPage> {
   static const SizedBox spacer = SizedBox(height: 10);
+  Map<int, Map<String, AttributeValue>>? allCustomers;
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
@@ -53,7 +57,13 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      await UserService.getAllCustomers().then((value) {
+                        setState(() {
+                          allCustomers = value;
+                        });
+                      });
+                    },
                   ),
                 ),
                 const CommandBarSeparator(),
@@ -75,7 +85,55 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
           spacer
         ],
       ),
-      children: [],
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: allCustomers?.length ?? 0,
+          itemBuilder: (context, index) {
+            final title = allCustomers?[index]?['name']?.s;
+            final subtitle = allCustomers?[index]?['email']?.s;
+            var customer = allCustomers?[index];
+            return TappableListTile(
+              leading: Row(
+                children: [
+                  Chip(
+                    image: Icon(
+                      FluentIcons.edit,
+                      size: 14,
+                      color: Colors.green,
+                    ),
+                    text: Text(
+                      'Editar',
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
+                    onPressed: () {},
+                  ),
+                  const SizedBox(width: 4),
+                  Chip(
+                    image: Icon(
+                      FluentIcons.delete,
+                      size: 14,
+                      color: Colors.red,
+                    ),
+                    text: Text(
+                      'Excluir',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+              title: Text(title ?? ''),
+              subtitle: Text(subtitle ?? ''),
+              onTap: (() {}),
+            );
+          },
+        ),
+      ],
     );
   }
 }

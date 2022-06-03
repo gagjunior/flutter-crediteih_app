@@ -10,6 +10,7 @@ import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/services/config_service.dart';
 
 const String usersTableName = 'Crediteih_Users';
+const String customerTableName = 'Crediteih_Customers';
 
 class UserService {
   static final DynamoDB service = ConfigService.startService();
@@ -127,5 +128,14 @@ class UserService {
   // Recupera usuário logado no sistema
   static Map<String, dynamic> getLoggedUser() {
     return _boxLoggedUser.get('loggedUser');
+  }
+
+  // Recupera todos clientes da base de dados
+  static Future<Map<int, Map<String, AttributeValue>>?>
+      getAllCustomers() async {
+    const String statement = "SELECT * FROM $customerTableName";
+    final response = await service.executeStatement(statement: statement);
+    Map<int, Map<String, AttributeValue>>? customers = response.items?.asMap();
+    return customers;
   }
 }
