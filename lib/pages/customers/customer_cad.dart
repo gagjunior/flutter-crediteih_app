@@ -1,6 +1,5 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:crediteih_app/services/customers_service.dart';
-import 'package:crediteih_app/services/users_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 
@@ -93,7 +92,6 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
           itemBuilder: (context, index) {
             final title = allCustomers?[index]?['name']?.s;
             final subtitle = allCustomers?[index]?['email']?.s;
-            var customer = allCustomers?[index];
             return TappableListTile(
               leading: Row(
                 children: [

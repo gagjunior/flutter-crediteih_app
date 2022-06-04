@@ -2,7 +2,6 @@ import 'package:crediteih_app/pages/menus/records_page.dart';
 import 'package:crediteih_app/pages/menus/reports_page.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 import 'package:crediteih_app/services/database_service.dart';
-import 'package:crediteih_app/services/users_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 class InicialPage extends StatefulWidget {
