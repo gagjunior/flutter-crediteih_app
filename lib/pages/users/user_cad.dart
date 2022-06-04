@@ -1,11 +1,12 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:crediteih_app/services/database_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 import 'package:crediteih_app/pages/users/user_new.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
-import 'package:crediteih_app/services/users_service.dart';
 
 const Widget spacer = SizedBox(height: 10.0);
+const String userTableName = 'Crediteih_Users';
 
 class UserCadPage extends StatefulWidget {
   const UserCadPage({Key? key}) : super(key: key);
@@ -65,7 +66,9 @@ class _UserCadPageState extends State<UserCadPage> {
                     ),
                     onPressed: () async {
                       _showProgress(context, 'Carregando', 'Buscando usuários');
-                      await UserService.getAllUsers().then((value) {
+                      await DataBaseService.getAll(
+                              tableName: userTableName, orderBy: 'email')
+                          .then((value) {
                         Navigator.of(context).pop();
                         setState(() {
                           allUsers = value;
@@ -211,9 +214,13 @@ class _UserCadPageState extends State<UserCadPage> {
         ),
         actions: [
           FilledButton(
-            onPressed: () async =>
-                await UserService.deleteUser(email).then((value) async {
-              await UserService.getAllUsers().then((value) {
+            onPressed: () async => await DataBaseService.deleteItem(
+                    tableName: userTableName,
+                    keyItem: {'email': AttributeValue(s: email)})
+                .then((value) async {
+              await DataBaseService.getAll(
+                      tableName: userTableName, orderBy: 'email')
+                  .then((value) {
                 Navigator.of(context).pop();
                 setState(() {
                   allUsers = value;

@@ -1,10 +1,8 @@
 // Imports de bibliotecas externas
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
-import 'package:intl/intl.dart';
 
 // Imports de bibliotecas internas
-import 'package:crediteih_app/exceptions/login_exception.dart';
 import 'package:crediteih_app/exceptions/user_exception.dart';
 import 'package:crediteih_app/models/user_model.dart';
 import 'package:crediteih_app/services/config_service.dart';
@@ -15,7 +13,6 @@ const String customerTableName = 'Crediteih_Customers';
 class UserService {
   static final DynamoDB service = ConfigService.startService();
   static final Map getConfigs = ConfigService.getConfigs();
-  static final Box _boxLoggedUser = Hive.box('loggedUser');
 
   static void _validateFields(User user) {
     if (user.email == '') {
@@ -63,71 +60,6 @@ class UserService {
         throw Exception();
       }
     });
-  }
-
-  static Future<void> deleteUser(String? email) async {
-    await service.deleteItem(key: {
-      'email': AttributeValue(s: email),
-      'clientId': AttributeValue(s: getConfigs['clientId'])
-    }, tableName: usersTableName);
-  }
-
-  // Metodo que faz a autenticação do usuário
-  static Future<bool> isAuthenticated(String email, String password) async {
-    if (email == '') {
-      throw LoginUserException('Usuário não pode estar em branco');
-    }
-    if (password == '') {
-      throw LoginPasswordException('Senha não pode estar em branco');
-    }
-    GetItemOutput response = await service.getItem(key: {
-      'email': AttributeValue(s: email),
-      'clientId': AttributeValue(s: getConfigs['clientId'])
-    }, tableName: usersTableName);
-    User user = User(
-        email: response.item?['email']?.s.toString(),
-        name: response.item?['name']?.s.toString(),
-        password: response.item?['password']?.s.toString());
-
-    if (user.email == null || user.email == '') {
-      throw LoginUserException(
-          'Usuário não encontrado\nVerifique com o administrador do sistema');
-    }
-
-    if (password != user.password) {
-      throw LoginPasswordException('Senha inválida');
-    }
-
-    _saveLoggedUser(user);
-
-    return true;
-  }
-
-  // Recupera todos usuários do banco de dados
-  static Future<Map<int, Map<String, AttributeValue>>?> getAllUsers() async {
-    const String statement = 'SELECT * FROM $usersTableName';
-    final response = await service.executeStatement(statement: statement);
-    response.items?.sort(((a, b) => a['email']!.s!.compareTo(b['email']!.s!)));
-    Map<int, Map<String, AttributeValue>>? users = response.items?.asMap();
-    return users;
-  }
-
-  // Salva localmente usuário logado no sistema
-  static void _saveLoggedUser(User user) async {
-    DateTime dateTime = DateTime.now();
-    await _boxLoggedUser.putAll({
-      'loggedUser': {
-        'email': user.email,
-        'name': user.name,
-        'password': user.password,
-        'loggedIn': DateFormat("'Login em:' dd/MM/yyyy hh:mm").format(dateTime)
-      }
-    });
-  }
-
-  // Recupera usuário logado no sistema
-  static Map<String, dynamic> getLoggedUser() {
-    return _boxLoggedUser.get('loggedUser');
   }
 
   // Recupera todos clientes da base de dados

@@ -2,12 +2,12 @@
 import 'package:crediteih_app/exceptions/config_exception.dart';
 import 'package:crediteih_app/pages/users/user_cad.dart';
 import 'package:crediteih_app/services/config_service.dart';
+import 'package:crediteih_app/services/database_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:email_validator/email_validator.dart';
 //Imports do projeto
 import 'package:crediteih_app/pages/home_page.dart';
 import 'package:crediteih_app/exceptions/login_exception.dart';
-import 'package:crediteih_app/services/users_service.dart';
 
 final Map getConfigs = ConfigService.getConfigs();
 const SizedBox vSpacer = SizedBox(
@@ -155,7 +155,7 @@ class LoginState extends State<LoginPage> {
                 onPressed: () async {
                   try {
                     _showProgress(context, 'Login', 'Conectando...');
-                    await UserService.isAuthenticated(
+                    await DataBaseService.isAuthenticated(
                             emailController.text, passwordController.text)
                         .then((value) {
                       if (value) {
