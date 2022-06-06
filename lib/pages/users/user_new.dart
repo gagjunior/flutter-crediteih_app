@@ -1,12 +1,17 @@
+// Imports externos
+import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:brasil_fields/brasil_fields.dart';
-import 'package:crediteih_app/exceptions/user_exception.dart';
 import 'package:crediteih_app/models/user_model.dart';
-import 'package:crediteih_app/pages/shared_widgets.dart';
-import 'package:crediteih_app/services/users_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
+
+// Imports internos do projeto
+import 'package:crediteih_app/exceptions/user_exception.dart';
+import 'package:crediteih_app/pages/shared_widgets.dart';
+import 'package:crediteih_app/pages/users/user_cad.dart';
+import 'package:crediteih_app/services/database_service.dart';
 
 class NewUserPage extends StatefulWidget {
   const NewUserPage({Key? key}) : super(key: key);
@@ -196,13 +201,22 @@ class _NewUserPageState extends State<NewUserPage> {
                         try {
                           _comparePassword(passwordController.text,
                               confirmPasswordController.text);
-                          User newUser = User(
-                            email: emailController.text,
-                            name: nameController.text,
-                            password: passwordController.text,
-                            cpf: cpfController.text,
-                          );
-                          await UserService.saveNewUser(newUser).then((value) {
+                          User user = User(
+                              email: emailController.text,
+                              name: nameController.text,
+                              password: passwordController.text,
+                              cpf: cpfController.text);
+                          DataBaseService.validateFields(user);
+                          Map<String, AttributeValue> newUser = {
+                            'email': AttributeValue(s: user.email),
+                            'name': AttributeValue(s: user.name),
+                            'password': AttributeValue(s: user.password),
+                            'cpf': AttributeValue(s: user.cpf),
+                          };
+
+                          await DataBaseService.saveNewItem(
+                                  newItem: newUser, tableName: userTableName)
+                              .then((value) {
                             setState(() {
                               emailController.text = '';
                               nameController.text = '';

@@ -1,5 +1,5 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
-import 'package:crediteih_app/services/customers_service.dart';
+import 'package:crediteih_app/services/database_service.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
 
@@ -11,6 +11,7 @@ class CustomerCadPage extends StatefulWidget {
 }
 
 class _CustomerCadPageState extends State<CustomerCadPage> {
+  static const String customerTableName = 'Crediteih_Customers';
   static const SizedBox spacer = SizedBox(height: 10);
   Map<int, Map<String, AttributeValue>>? allCustomers;
 
@@ -58,7 +59,11 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
                       ),
                     ),
                     onPressed: () async {
-                      await CustomerService.getAllCustomers().then((value) {
+                      _showProgress(context, 'Carregando', 'Buscando clientes');
+                      await DataBaseService.getAll(
+                              tableName: customerTableName, orderBy: 'email')
+                          .then((value) {
+                        Navigator.of(context).pop();
                         setState(() {
                           allCustomers = value;
                         });
@@ -133,6 +138,25 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
           },
         ),
       ],
+    );
+  }
+
+  void _showProgress(BuildContext context, String title, String msg) {
+    showDialog(
+      context: context,
+      builder: (_) => ContentDialog(
+        title: Text(title),
+        content: SizedBox(
+          height: 100,
+          width: 150,
+          child: Column(
+            children: [
+              const ProgressRing(),
+              Text(msg),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

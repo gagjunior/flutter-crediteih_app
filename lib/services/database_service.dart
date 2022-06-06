@@ -1,4 +1,5 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:crediteih_app/exceptions/user_exception.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -67,10 +68,38 @@ class DataBaseService {
     return response.items?.asMap();
   }
 
+  // Exclui um registro de uma tabela do banco de dados
   static Future<void> deleteItem(
       {required Map<String, AttributeValue> keyItem,
       required String tableName}) async {
     keyItem.addAll({'clientId': AttributeValue(s: getConfigs['clientId'])});
     await service.deleteItem(key: keyItem, tableName: tableName);
+  }
+
+  static void validateFields(User user) {
+    if (user.email == '') {
+      throw EmailUserException('Email não pode ficar em branco');
+    }
+    if (user.name == '') {
+      throw NameUserException('Nome não pode ficar em branco');
+    }
+    if (user.password == '') {
+      throw PasswordUserException('Senha não pode ficar em branco');
+    }
+  }
+
+  static Future<void> saveNewItem(
+      {required Map<String, AttributeValue> newItem,
+      required String tableName}) async {
+    newItem.addAll({'clientId': AttributeValue(s: getConfigs['clientId'])});
+    service
+        .putItem(item: newItem, tableName: tableName)
+        .onError<DuplicateItemException>((error, stackTrace) {
+      if (error.code == 'DuplicateItemException') {
+        throw Exception('Já existe usuário criado com o e-mail informado');
+      } else {
+        throw Exception();
+      }
+    });
   }
 }
