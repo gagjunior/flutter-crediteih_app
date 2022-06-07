@@ -1,7 +1,10 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
-import 'package:crediteih_app/services/database_service.dart';
+import 'package:crediteih_app/models/customer_model.dart';
+import 'package:crediteih_app/pages/customers/customer_detail.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
+import 'package:crediteih_app/services/database_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class CustomerCadPage extends StatefulWidget {
   const CustomerCadPage({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class CustomerCadPage extends StatefulWidget {
 class _CustomerCadPageState extends State<CustomerCadPage> {
   static const String customerTableName = 'Crediteih_Customers';
   static const SizedBox spacer = SizedBox(height: 10);
+  static final Box _customerBox = Hive.box('customer');
   Map<int, Map<String, AttributeValue>>? allCustomers;
 
   @override
@@ -133,7 +137,22 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
               ),
               title: Text(title ?? ''),
               subtitle: Text(subtitle ?? ''),
-              onTap: (() {}),
+              onTap: (() {
+                _customerBox.putAll(
+                  {
+                    'customer': {
+                      'name': allCustomers?[index]?['name']?.s,
+                      'email': allCustomers?[index]?['email']?.s
+                    }
+                  },
+                );
+                Navigator.push(
+                  context,
+                  FluentPageRoute(
+                    builder: (context) => const CustomerDetail(),
+                  ),
+                );
+              }),
             );
           },
         ),
