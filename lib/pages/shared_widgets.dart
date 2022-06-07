@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/material.dart' as material;
 
 Widget leadingPageHeader(void Function()? onPressed) {
   return Padding(
@@ -61,12 +60,17 @@ Widget buttonMenuPage(String titulo, String subtitulo, Widget page,
         elevation: ButtonState.all(4),
         backgroundColor: ButtonState.resolveWith((states) {
           if (states.isNone) {
-            return material.Colors.blue[100];
+            return Colors.blue.normal;
           }
           if (states.isHovering) {
-            return material.Colors.lightBlue[100];
+            return Colors.blue.darker;
           }
           return null;
+        }),
+        foregroundColor: ButtonState.resolveWith((states) {
+          if (states.isNone || states.isHovering) {
+            return Colors.white;
+          }
         }),
       ),
       child: Padding(
@@ -140,23 +144,29 @@ Widget rowCardInitialPage(String content) {
   );
 }
 
-Widget cardInitialPage(void Function()? onPressed, List<Widget> contents,
-    int backgroundDensit, int hoverDensit) {
+Widget cardInitialPage(void Function()? onPressed, List<Widget> contents) {
   return MouseRegion(
     cursor: SystemMouseCursors.click,
     child: SizedBox(
       width: 300,
       height: 250,
       child: Button(
-        style: ButtonStyle(backgroundColor: ButtonState.resolveWith((states) {
-          if (states.isNone) {
-            return material.Colors.blue[backgroundDensit];
-          }
-          if (states.isHovering) {
-            return material.Colors.teal[hoverDensit];
-          }
-          return null;
-        })),
+        style: ButtonStyle(
+          backgroundColor: ButtonState.resolveWith((states) {
+            if (states.isNone) {
+              return Colors.blue.normal;
+            }
+            if (states.isHovering) {
+              return Colors.blue.darker;
+            }
+            return null;
+          }),
+          foregroundColor: ButtonState.resolveWith((states) {
+            if (states.isNone || states.isHovering) {
+              return Colors.white;
+            }
+          }),
+        ),
         onPressed: onPressed,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -69,7 +69,7 @@ class _InicialPageState extends State<InicialPage> {
                 rowCardInitialPage('... e muito mais!'),
                 const SizedBox(height: 20),
                 rowCardInitialPage('Clique e acesse o menu de cadastros')
-              ], 100, 100),
+              ]),
               cardInitialPage(() {
                 Navigator.push(context,
                     FluentPageRoute(builder: (_) => const ReportsMenuPage()));
@@ -81,8 +81,7 @@ class _InicialPageState extends State<InicialPage> {
                 rowCardInitialPage('... e muito mais!'),
                 const SizedBox(height: 20),
                 rowCardInitialPage('Clique e acesse o menu de relatórios')
-              ], 200, 200),
-              cardInitialPage(() {}, [], 300, 300)
+              ]),
             ],
           ),
         ),
