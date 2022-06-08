@@ -160,7 +160,27 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
                         'cnpj_cpf': allCustomers?[index]?['cnpj_cpf']?.s,
                         'tipoCadastro':
                             allCustomers?[index]?['tipoCadastro']?.s,
-                        //'endereco': allCustomers?[index]?['endereco']?.m,
+                        'endereco': {
+                          'bairro': allCustomers?[index]?['endereco']
+                              ?.m?['bairro']
+                              ?.s,
+                          'cep':
+                              allCustomers?[index]?['endereco']?.m?['cep']?.s,
+                          'complemento': allCustomers?[index]?['endereco']
+                              ?.m?['complemento']
+                              ?.s,
+                          'logradouro': allCustomers?[index]?['endereco']
+                              ?.m?['logradouro']
+                              ?.s,
+                          'municipio': allCustomers?[index]?['endereco']
+                              ?.m?['municipio']
+                              ?.s,
+                          'numero': allCustomers?[index]?['endereco']
+                              ?.m?['numero']
+                              ?.n,
+                          'uf': allCustomers?[index]?['endereco']?.m?['uf']?.s,
+                          //'pontosReferencia': allCustomers?[index]?['endereco']?.m?['pontosReferencia']?.l
+                        },
                       }
                     },
                   );

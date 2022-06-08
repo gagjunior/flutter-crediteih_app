@@ -12,6 +12,7 @@ class CustomerDetail extends StatefulWidget {
 class _CustomerDetailState extends State<CustomerDetail> {
   final TextEditingController _cnpjCpfController = TextEditingController();
   final TextEditingController _tipoController = TextEditingController();
+
   String name = '';
   final Box customerBox = Hive.box('customer');
 
@@ -59,7 +60,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
           children: [
             SizedBox(
               width: 600,
-              child: TextFormBox(
+              child: TextBox(
                 header: 'CNPJ / CPF',
                 readOnly: true,
                 controller: _cnpjCpfController,
@@ -74,6 +75,16 @@ class _CustomerDetailState extends State<CustomerDetail> {
                 controller: _tipoController,
               ),
             ),
+            SizedBox(height: 10),
+            Text('Endereço'),
+            SizedBox(height: 10),
+            SizedBox(
+              width: 600,
+              child: TextBox(
+                header: 'Rua / Avenida / Estrada',
+                readOnly: true,
+              ),
+            )
           ],
         )
       ],
