@@ -14,19 +14,21 @@ Widget leadingPageHeader(void Function()? onPressed) {
   );
 }
 
-Widget titlePageHeader(IconData icon, String titulo, String subtitulo) {
+Widget titlePageHeader(IconData? icon, String titulo, String subtitulo) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-          child: Icon(
-            icon,
-            size: 26,
-            color: const Color.fromARGB(255, 10, 34, 255),
-          ),
-        ),
+        icon != null
+            ? Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                child: Icon(
+                  icon,
+                  size: 26,
+                  color: const Color.fromARGB(255, 10, 34, 255),
+                ),
+              )
+            : const Text(''),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -71,6 +73,7 @@ Widget buttonMenuPage(String titulo, String subtitulo, Widget page,
           if (states.isNone || states.isHovering) {
             return Colors.white;
           }
+          return null;
         }),
       ),
       child: Padding(
@@ -165,6 +168,7 @@ Widget cardInitialPage(void Function()? onPressed, List<Widget> contents) {
             if (states.isNone || states.isHovering) {
               return Colors.white;
             }
+            return null;
           }),
         ),
         onPressed: onPressed,
