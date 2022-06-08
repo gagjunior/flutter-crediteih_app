@@ -100,7 +100,6 @@ class _UserCadPageState extends State<UserCadPage> {
             ),
           ),
           spacer,
-          spacer
         ],
       ),
       children: [
@@ -111,50 +110,64 @@ class _UserCadPageState extends State<UserCadPage> {
             final title = allUsers?[index]?['name']?.s;
             final subtitle = allUsers?[index]?['email']?.s;
             var user = allUsers?[index];
-            return TappableListTile(
-              leading: Row(
-                children: [
-                  Chip(
-                    image: Icon(
-                      FluentIcons.edit,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    text: Text(
-                      'Editar',
-                      style: TextStyle(
+            return Container(
+              margin: const EdgeInsets.all(4),
+              child: TappableListTile(
+                tileColor: ButtonState.resolveWith((states) {
+                  if (states.isNone) {
+                    return Colors.grey[30];
+                  }
+                  return Colors.grey[50];
+                }),
+                trailing: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(FluentIcons.chrome_back_mirrored),
+                ),
+                isThreeLine: true,
+                leading: Row(
+                  children: [
+                    Chip(
+                      image: Icon(
+                        FluentIcons.edit,
+                        size: 14,
                         color: Colors.green,
                       ),
-                    ),
-                    onPressed: () => Navigator.push(
-                      context,
-                      FluentPageRoute(
-                        builder: (context) => const NewUserPage(),
+                      text: Text(
+                        'Editar',
+                        style: TextStyle(
+                          color: Colors.green,
+                        ),
+                      ),
+                      onPressed: () => Navigator.push(
+                        context,
+                        FluentPageRoute(
+                          builder: (context) => const NewUserPage(),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 4),
-                  Chip(
-                    image: Icon(
-                      FluentIcons.delete,
-                      size: 14,
-                      color: Colors.red,
-                    ),
-                    text: Text(
-                      'Excluir',
-                      style: TextStyle(
+                    const SizedBox(width: 4),
+                    Chip(
+                      image: Icon(
+                        FluentIcons.delete,
+                        size: 14,
                         color: Colors.red,
                       ),
-                    ),
-                    onPressed: () => _showDeleteDialog(context, user),
-                  )
-                ],
+                      text: Text(
+                        'Excluir',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      onPressed: () => _showDeleteDialog(context, user),
+                    )
+                  ],
+                ),
+                title: Text(title ?? ''),
+                subtitle: Text(subtitle ?? ''),
+                onTap: (() {
+                  _showUserDetailDialog(context, user);
+                }),
               ),
-              title: Text(title ?? ''),
-              subtitle: Text(subtitle ?? ''),
-              onTap: (() {
-                _showUserDetailDialog(context, user);
-              }),
             );
           },
         ),
