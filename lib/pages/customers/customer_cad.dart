@@ -1,5 +1,4 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
-import 'package:crediteih_app/models/customer_model.dart';
 import 'package:crediteih_app/pages/customers/customer_detail.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:crediteih_app/pages/shared_widgets.dart';
@@ -38,8 +37,12 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
                 },
               ),
             ),
-            title: titlePageHeader(FluentIcons.add_group,
-                'Cadastro de Clientes', 'Cadastre e gerencie os clientes'),
+            title: Row(
+              children: [
+                titlePageHeader(FluentIcons.add_group, 'Cadastro de Clientes',
+                    'Cadastre e gerencie os clientes'),
+              ],
+            ),
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -65,7 +68,7 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
                     onPressed: () async {
                       _showProgress(context, 'Carregando', 'Buscando clientes');
                       await DataBaseService.getAll(
-                              tableName: customerTableName, orderBy: 'email')
+                              tableName: customerTableName, orderBy: 'name')
                           .then((value) {
                         Navigator.of(context).pop();
                         setState(() {
@@ -91,7 +94,6 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
             ),
           ),
           spacer,
-          spacer
         ],
       ),
       children: [
@@ -101,58 +103,75 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
           itemBuilder: (context, index) {
             final title = allCustomers?[index]?['name']?.s;
             final subtitle = allCustomers?[index]?['email']?.s;
-            return TappableListTile(
-              leading: Row(
-                children: [
-                  Chip(
-                    image: Icon(
-                      FluentIcons.edit,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    text: Text(
-                      'Editar',
-                      style: TextStyle(
+            return Container(
+              margin: const EdgeInsets.all(4),
+              child: TappableListTile(
+                tileColor: ButtonState.resolveWith((states) {
+                  if (states.isNone) {
+                    return Colors.grey[30];
+                  }
+                  return Colors.grey[50];
+                }),
+                trailing: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(FluentIcons.chrome_back_mirrored),
+                ),
+                isThreeLine: true,
+                leading: Row(
+                  children: [
+                    Chip(
+                      image: Icon(
+                        FluentIcons.edit,
+                        size: 14,
                         color: Colors.green,
                       ),
+                      text: Text(
+                        'Editar',
+                        style: TextStyle(
+                          color: Colors.green,
+                        ),
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () {},
-                  ),
-                  const SizedBox(width: 4),
-                  Chip(
-                    image: Icon(
-                      FluentIcons.delete,
-                      size: 14,
-                      color: Colors.red,
-                    ),
-                    text: Text(
-                      'Excluir',
-                      style: TextStyle(
+                    const SizedBox(width: 4),
+                    Chip(
+                      image: Icon(
+                        FluentIcons.delete,
+                        size: 14,
                         color: Colors.red,
                       ),
+                      text: Text(
+                        'Excluir',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+                title: Text(title ?? ''),
+                subtitle: Text(subtitle ?? ''),
+                onTap: (() {
+                  _customerBox.putAll(
+                    {
+                      'customer': {
+                        'name': allCustomers?[index]?['name']?.s,
+                        'cnpj_cpf': allCustomers?[index]?['cnpj_cpf']?.s,
+                        'tipoCadastro':
+                            allCustomers?[index]?['tipoCadastro']?.s,
+                        //'endereco': allCustomers?[index]?['endereco']?.m,
+                      }
+                    },
+                  );
+                  Navigator.push(
+                    context,
+                    FluentPageRoute(
+                      builder: (context) => const CustomerDetail(),
                     ),
-                    onPressed: () {},
-                  )
-                ],
+                  );
+                }),
               ),
-              title: Text(title ?? ''),
-              subtitle: Text(subtitle ?? ''),
-              onTap: (() {
-                _customerBox.putAll(
-                  {
-                    'customer': {
-                      'name': allCustomers?[index]?['name']?.s,
-                      'email': allCustomers?[index]?['email']?.s
-                    }
-                  },
-                );
-                Navigator.push(
-                  context,
-                  FluentPageRoute(
-                    builder: (context) => const CustomerDetail(),
-                  ),
-                );
-              }),
             );
           },
         ),
