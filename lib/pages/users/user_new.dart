@@ -71,7 +71,7 @@ class _NewUserPageState extends State<NewUserPage> {
                 autovalidateMode: AutovalidateMode.always,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Digite um e-mail válido           ';
+                    return 'Digite um e-mail válido';
                   }
                   if (!EmailValidator.validate(text)) {
                     return 'E-mail não é válido';
