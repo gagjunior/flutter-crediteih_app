@@ -22,7 +22,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return NavigationView(
       pane: NavigationPane(
-        displayMode: PaneDisplayMode.top,
+        header: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(
+            'Crediteih',
+            softWrap: true,
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.blue.darker,
+            ),
+          ),
+        ),
+        displayMode: PaneDisplayMode.auto,
         selected: _currentPage,
         onChanged: (i) => setState(() {
           _currentPage = i;
