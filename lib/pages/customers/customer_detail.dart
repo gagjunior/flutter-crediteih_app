@@ -181,8 +181,19 @@ class _CustomerDetailState extends State<CustomerDetail> {
               ),
             ),
             separator,
-            const Text('Endereço'),
             separator,
+            separator,
+            const Text('Endereço'),
+            Divider(
+              size: 600,
+              style: DividerThemeData(
+                decoration: BoxDecoration(
+                  color: Colors.green.lightest,
+                ),
+                horizontalMargin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                thickness: 3,
+              ),
+            ),
             Row(
               children: [
                 SizedBox(
