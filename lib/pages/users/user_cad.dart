@@ -39,7 +39,7 @@ class _UserCadPageState extends State<UserCadPage> {
               ),
             ),
             title: titlePageHeader(
-                FluentIcons.add_group,
+                FluentIcons.user_window,
                 'Cadastro de Usuários',
                 'Cadastre e gerencie os usuários do sistema'),
           ),

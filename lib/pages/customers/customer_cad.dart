@@ -23,6 +23,7 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
     return ScaffoldPage.scrollable(
       header: Column(
         children: [
+          //Cabeçalho da pagina
           PageHeader(
             leading: Padding(
               padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
@@ -44,6 +45,7 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
               ],
             ),
           ),
+          //Comand bar
           Container(
             margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
             color: const Color.fromARGB(30, 0, 0, 0),
@@ -165,7 +167,7 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
                               ?.m?['bairro']
                               ?.s,
                           'cep':
-                              allCustomers?[index]?['endereco']?.m?['cep']?.s,
+                              allCustomers?[index]?['endereco']?.m?['cep']?.n,
                           'complemento': allCustomers?[index]?['endereco']
                               ?.m?['complemento']
                               ?.s,
@@ -179,7 +181,6 @@ class _CustomerCadPageState extends State<CustomerCadPage> {
                               ?.m?['numero']
                               ?.n,
                           'uf': allCustomers?[index]?['endereco']?.m?['uf']?.s,
-                          //'pontosReferencia': allCustomers?[index]?['endereco']?.m?['pontosReferencia']?.l
                         },
                       }
                     },
