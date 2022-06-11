@@ -181,3 +181,27 @@ Widget cardInitialPage(void Function()? onPressed, List<Widget> contents) {
     ),
   );
 }
+
+Widget formTextBox(
+    {double? largura = 600,
+    String? header,
+    bool readOnly = false,
+    bool autofocus = false,
+    TextEditingController? controller,
+    TextInputType? keyboardType = TextInputType.text}) {
+  return SizedBox(
+    width: largura,
+    child: TextBox(
+      header: header,
+      readOnly: readOnly,
+      controller: controller,
+      autofocus: autofocus,
+      showCursor: true,
+      keyboardType: keyboardType,
+      textInputAction: TextInputAction.next,
+      headerStyle: const TextStyle(
+        fontWeight: FontWeight.w700,
+      ),
+    ),
+  );
+}

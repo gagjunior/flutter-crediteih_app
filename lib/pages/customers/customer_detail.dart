@@ -145,131 +145,90 @@ class _CustomerDetailState extends State<CustomerDetail> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 600,
-              child: TextBox(
-                header: 'Nome',
-                readOnly: true,
-                controller: _nameController,
-                autofocus: true,
-                keyboardType: TextInputType.text,
-                showCursor: true,
-                textInputAction: TextInputAction.next,
-              ),
+            Text('Dados Gerais',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.dark,
+                )),
+            const Divider(size: 600),
+            formTextBox(
+              autofocus: true,
+              controller: _nameController,
+              header: 'Nome',
+              readOnly: true,
             ),
             separator,
-            SizedBox(
-              width: 600,
-              child: TextBox(
-                header: 'CNPJ / CPF',
-                readOnly: true,
-                controller: _cnpjCpfController,
-                keyboardType: TextInputType.text,
-                showCursor: true,
-                textInputAction: TextInputAction.next,
-              ),
+            formTextBox(
+              header: 'Tipo',
+              controller: _tipoController,
+              readOnly: true,
             ),
             separator,
-            SizedBox(
-              width: 600,
-              child: TextBox(
-                header: 'Tipo Cadastro (Pessoa)',
-                readOnly: true,
-                controller: _tipoController,
-                keyboardType: TextInputType.text,
-                showCursor: true,
-              ),
+            formTextBox(
+              header: customerBox.get('customer')['tipoCadastro'] == 'J'
+                  ? 'CNPJ'
+                  : 'CPF',
+              controller: _cnpjCpfController,
+              readOnly: true,
             ),
             separator,
-            separator,
-            separator,
-            const Text('Endereço'),
-            Divider(
-              size: 600,
-              style: DividerThemeData(
-                decoration: BoxDecoration(
-                  color: Colors.green.lightest,
-                ),
-                horizontalMargin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                thickness: 3,
-              ),
+            const SizedBox(height: 20),
+            Text('Endereço',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.dark,
+                )),
+            const Divider(size: 600),
+            formTextBox(
+              header: 'Logradouro',
+              largura: 600,
+              keyboardType: TextInputType.streetAddress,
+              controller: _logradouroController,
+              readOnly: true,
             ),
+            separator,
             Row(
               children: [
-                SizedBox(
-                  width: 500,
-                  child: TextBox(
-                    header: 'Rua / Avenida / Rodovia',
-                    readOnly: true,
-                    controller: _logradouroController,
-                    keyboardType: TextInputType.streetAddress,
-                  ),
+                formTextBox(
+                  header: 'Numero',
+                  largura: 90,
+                  keyboardType: TextInputType.number,
+                  controller: _numeroController,
+                  readOnly: true,
                 ),
                 const SizedBox(width: 10),
-                SizedBox(
-                  width: 90,
-                  child: TextBox(
-                    header: 'Numero',
-                    readOnly: true,
-                    controller: _numeroController,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    showCursor: true,
-                    textInputAction: TextInputAction.next,
-                  ),
+                formTextBox(
+                  header: 'Bairro',
+                  largura: 300,
+                  controller: _bairroController,
+                  readOnly: true,
+                ),
+                const SizedBox(width: 10),
+                formTextBox(
+                  header: 'CEP',
+                  largura: 200,
+                  controller: _cepController,
+                  readOnly: true,
                 ),
               ],
             ),
             separator,
             Row(
               children: [
-                SizedBox(
-                  width: 290,
-                  child: TextBox(
-                    header: 'CEP',
-                    readOnly: true,
-                    controller: _cepController,
-                    showCursor: true,
-                  ),
+                formTextBox(
+                  header: 'Municipio',
+                  largura: 500,
+                  controller: _municipioController,
+                  readOnly: true,
                 ),
                 const SizedBox(width: 10),
-                SizedBox(
-                  width: 300,
-                  child: TextBox(
-                    header: 'Bairro',
-                    readOnly: true,
-                    controller: _bairroController,
-                  ),
-                ),
-              ],
-            ),
-            separator,
-            Row(
-              children: [
-                SizedBox(
-                  width: 500,
-                  child: TextBox(
-                    header: 'Municipio',
-                    readOnly: true,
-                    controller: _municipioController,
-                    autofocus: true,
-                    keyboardType: TextInputType.text,
-                    showCursor: true,
-                    textInputAction: TextInputAction.next,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                SizedBox(
-                  width: 90,
-                  child: TextBox(
-                    header: 'UF',
-                    readOnly: true,
-                    controller: _ufController,
-                    autofocus: true,
-                    keyboardType: TextInputType.text,
-                    showCursor: true,
-                    textInputAction: TextInputAction.next,
-                  ),
+                formTextBox(
+                  header: 'UF',
+                  largura: 90,
+                  controller: _ufController,
+                  readOnly: true,
                 ),
               ],
             )

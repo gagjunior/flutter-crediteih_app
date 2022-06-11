@@ -32,6 +32,13 @@ class CrediteihApp extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(4)),
           primaryBorder: BorderSide.none,
         ),
+        dividerTheme: DividerThemeData(
+          decoration: BoxDecoration(
+            color: Colors.blue.lightest,
+          ),
+          horizontalMargin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+          thickness: 2,
+        ),
       ),
     );
   }
